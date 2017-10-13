@@ -56,10 +56,10 @@ public class MecanumDrive extends OpMode
 {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor rearLeftDrive = null;
+    private DcMotor rearRightDrive = null;
     private DcMotor rearLeftDrive = null;
     private DcMotor frontRightDrive = null;
-    private DcMotor frontrightDrive = null;
+    private DcMotor frontLeftDrive = null;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -115,10 +115,10 @@ public class MecanumDrive extends OpMode
         final double v3 = r * Math.sin(robotAngle) + rightX;
         final double v4 = r * Math.cos(robotAngle) - rightX;
 
-        rearLeftFront.setPower(v1);
-        rearRightFront.setPower(v2);
-        leftRear.setPower(v3)
-        rightRear.setPower(v4);
+        rearLeftDrive.setPower(v1);
+        rearRightDrive.setPower(v2);
+        frontLeftDrive.setPower(v3);
+        frontRightDrive.setPower(v4);
 
         // Tank Mode uses one stick to control each wheel.
         // - This requires no math, but it is hard to drive forward slowly and keep straight.
@@ -126,12 +126,13 @@ public class MecanumDrive extends OpMode
         // rightPower = -gamepad1.right_stick_y ;
 
         // Send calculated power to wheels
-        leftDrive.setPower(leftPower);
-        rightDrive.setPower(rightPower);
-
+        rearLeftDrive.setPower(v1);
+        rearRightDrive.setPower(v2);
+        frontLeftDrive.setPower(v3);
+        frontRightDrive.setPower(v4);
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
-        telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+        telemetry.addData("Motors", "rearLeft (%.2f), rearRight (%.2f), frontLeft (%.2f), frontRight (%.2f)", v1, v2, v3, v4);
     }
 
     /*
