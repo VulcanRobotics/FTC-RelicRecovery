@@ -34,6 +34,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -61,6 +62,9 @@ public class MecanumDrive extends OpMode
     private DcMotor rearLeftDrive = null;
     private DcMotor frontRightDrive = null;
     private DcMotor frontLeftDrive = null;
+    private Servo bottomGripper = null:
+    private Servo topGripper = null;
+    private DcMotor elbow = null;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -76,7 +80,10 @@ public class MecanumDrive extends OpMode
         rearRightDrive = hardwareMap.get(DcMotor.class, "rearRightDrive");
         frontRightDrive = hardwareMap.get(DcMotor.class, "frontRightDrive");
         frontLeftDrive = hardwareMap.get(DcMotor.class, "frontLeftDrive");
- /*
+        elbow = hardwareMap.get(DcMotor.class, "elbow")
+        topGripper = hardwareMap.get(Servo.class, "top")
+        bottomGripper = hardwareMap.get(Servo.class, "bottom")
+        /*
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
         leftDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -125,7 +132,9 @@ public class MecanumDrive extends OpMode
         frontRightDrive.setPower(v2);
         rearLeftDrive.setPower(v3);
         rearRightDrive.setPower(v4);
-
+        double drive = -gamepad2.left_stick_y;
+        double elbowPower = Range.clip(drive, -1.0, 1.0);
+        elbow.setPower(elbowPower);
         // Tank Mode uses one stick to control each wheel.
         // - This requires no math, but it is hard to drive forward slowly and keep straight.
         // leftPower  = -gamepad1.left_stick_y ;
@@ -135,7 +144,8 @@ public class MecanumDrive extends OpMode
 
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
-        telemetry.addData("Motors", "rearLeft (%.2f), rearRight (%.2f), frontLeft (%.2f), frontRight (%.2f)", v1, v2, v3, v4);
+        telemetry.addData("Status", "armPosition: "+elbow.getCurrentPosition());
+
     }
 
     /*
