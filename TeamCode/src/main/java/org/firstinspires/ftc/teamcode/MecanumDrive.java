@@ -83,7 +83,9 @@ public class MecanumDrive extends OpMode
         rightDrive.setDirection(DcMotor.Direction.REVERSE);
 */
 
-        rearLeftDrive.setDirection(DcMotor.Direction.FORWARD);
+        rearLeftDrive.setDirection(DcMotor.Direction.REVERSE);
+        frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
+        rearRightDrive.setDirection(DcMotor.Direction.FORWARD);
         frontLeftDrive.setDirection(DcMotor.Direction.FORWARD);
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -130,10 +132,7 @@ public class MecanumDrive extends OpMode
         // rightPower = -gamepad1.right_stick_y ;
 
         // Send calculated power to wheels
-        rearLeftDrive.setPower(v1);
-        rearRightDrive.setPower(v2);
-        frontLeftDrive.setPower(v3);
-        frontRightDrive.setPower(v4);
+
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.addData("Motors", "rearLeft (%.2f), rearRight (%.2f), frontLeft (%.2f), frontRight (%.2f)", v1, v2, v3, v4);
