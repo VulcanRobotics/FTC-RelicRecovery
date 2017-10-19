@@ -62,7 +62,7 @@ public class MecanumDrive extends OpMode
     private DcMotor rearLeftDrive = null;
     private DcMotor frontRightDrive = null;
     private DcMotor frontLeftDrive = null;
-    private Servo bottomGripper = null:
+    private Servo bottomGripper = null;
     private Servo topGripper = null;
     private DcMotor elbow = null;
 
@@ -80,9 +80,9 @@ public class MecanumDrive extends OpMode
         rearRightDrive = hardwareMap.get(DcMotor.class, "rearRightDrive");
         frontRightDrive = hardwareMap.get(DcMotor.class, "frontRightDrive");
         frontLeftDrive = hardwareMap.get(DcMotor.class, "frontLeftDrive");
-        elbow = hardwareMap.get(DcMotor.class, "elbow")
-        topGripper = hardwareMap.get(Servo.class, "top")
-        bottomGripper = hardwareMap.get(Servo.class, "bottom")
+        elbow = hardwareMap.get(DcMotor.class, "elbow");
+        topGripper = hardwareMap.get(Servo.class, "top");
+        bottomGripper = hardwareMap.get(Servo.class, "bottom");
         /*
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
