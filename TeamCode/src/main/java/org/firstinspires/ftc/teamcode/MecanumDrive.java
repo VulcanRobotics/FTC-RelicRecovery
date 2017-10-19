@@ -119,10 +119,10 @@ public class MecanumDrive extends OpMode
         final double v3 = r * Math.sin(robotAngle) + rightX;
         final double v4 = r * Math.cos(robotAngle) - rightX;
 
-        rearLeftDrive.setPower(v1);
-        rearRightDrive.setPower(v2);
-        frontLeftDrive.setPower(v3);
-        frontRightDrive.setPower(v4);
+        frontLeftDrive.setPower(v1);
+        frontRightDrive.setPower(v2);
+        rearLeftDrive.setPower(v3);
+        rearRightDrive.setPower(v4);
 
         // Tank Mode uses one stick to control each wheel.
         // - This requires no math, but it is hard to drive forward slowly and keep straight.
