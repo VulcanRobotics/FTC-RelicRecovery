@@ -147,7 +147,7 @@ public class MecanumDrive extends OpMode
 
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
-        telemetry.addData("Status", "armPosition: " + elbow.getCurrentPosition());
+        telemetry.addData("Status", "armPosition: " +elbow.getCurrentPosition());
 
     }
 
