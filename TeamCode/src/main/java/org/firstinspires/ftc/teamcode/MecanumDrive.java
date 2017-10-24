@@ -81,8 +81,8 @@ public class MecanumDrive extends OpMode
         frontRightDrive = hardwareMap.get(DcMotor.class, "frontRightDrive");
         frontLeftDrive = hardwareMap.get(DcMotor.class, "frontLeftDrive");
         elbow = hardwareMap.get(DcMotor.class, "elbow");
-        topGripper = hardwareMap.get(Servo.class, "top");
-        bottomGripper = hardwareMap.get(Servo.class, "bottom");
+        topGripper = hardwareMap.get(Servo.class, "topGripper");
+        bottomGripper = hardwareMap.get(Servo.class, "bottomGripper");
         /*
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -128,7 +128,10 @@ public class MecanumDrive extends OpMode
         final double v3 = r * Math.sin(robotAngle) + rightX;
         final double v4 = r * Math.cos(robotAngle) - rightX;
 
-        frontLeftDrive.setPower(v1);
+        frontLeftDrive.setPower(-v1);
+        /*The front left wheel was spinning backwards
+        under the "v1". When changed to -v1, it is
+        expected to go in the correct direction. */
         frontRightDrive.setPower(v2);
         rearLeftDrive.setPower(v3);
         rearRightDrive.setPower(v4);
@@ -144,7 +147,7 @@ public class MecanumDrive extends OpMode
 
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
-        telemetry.addData("Status", "armPosition: "+elbow.getCurrentPosition());
+        telemetry.addData("Status", "armPosition: " + elbow.getCurrentPosition());
 
     }
 
