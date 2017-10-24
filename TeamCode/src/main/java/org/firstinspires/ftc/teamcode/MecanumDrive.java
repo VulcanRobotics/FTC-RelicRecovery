@@ -153,7 +153,13 @@ public class MecanumDrive extends OpMode
         // - This requires no math, but it is hard to drive forward slowly and keep straight.
         // leftPower  = -gamepad1.left_stick_y ;
         // rightPower = -gamepad1.right_stick_y ;
-
+        if(gamepad2.x == true){
+            topGripper.setPosition(90);
+            bottomGripper.setPosition(0);
+        }if(gamepad2.b == true){
+            topGripper.setPosition(45);
+            bottomGripper.setPosition(45);
+        }
         // Send calculated power to wheels
 
         // Show the elapsed game time and wheel power.
