@@ -94,8 +94,17 @@ public class MecanumDrive extends OpMode
         frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
         rearRightDrive.setDirection(DcMotor.Direction.FORWARD);
         frontLeftDrive.setDirection(DcMotor.Direction.FORWARD);
+
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
+
+        if(gamepad2.x == true){
+            topGripper.setPosition(90);
+            bottomGripper.setPosition(90);
+        }if(gamepad2.b == true){
+            topGripper.setPosition(0);
+            bottomGripper.setPosition(0);
+        }
     }
 
     /*
@@ -117,7 +126,7 @@ public class MecanumDrive extends OpMode
      * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
      */
     @Override
-    public void loop() {
+    public void  loop() {
 
 
         double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
@@ -127,6 +136,8 @@ public class MecanumDrive extends OpMode
         final double v2 = r * Math.sin(robotAngle) - rightX;
         final double v3 = r * Math.sin(robotAngle) + rightX;
         final double v4 = r * Math.cos(robotAngle) - rightX;
+
+
 
         frontLeftDrive.setPower(-v1);
         /*The front left wheel was spinning backwards
