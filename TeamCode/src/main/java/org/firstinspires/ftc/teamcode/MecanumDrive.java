@@ -98,13 +98,7 @@ public class MecanumDrive extends OpMode
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
 
-        if(gamepad2.x == true){
-            topGripper.setPosition(90);
-        //    bottomGripper.setPosition(90);
-        }if(gamepad2.b == true){
-            topGripper.setPosition(0);
-          //  bottomGripper.setPosition(0);
-        }
+
     }
 
     /*
@@ -154,10 +148,10 @@ public class MecanumDrive extends OpMode
         // leftPower  = -gamepad1.left_stick_y ;
         // rightPower = -gamepad1.right_stick_y ;
         if(gamepad2.x == true){
-            topGripper.setPosition(90);
+            topGripper.setPosition(1);
             //bottomGripper.setPosition(0);
         }if(gamepad2.b == true){
-            topGripper.setPosition(0);
+            topGripper.setPosition(0.5);
             //bottomGripper.setPosition(45);
         }
         // Send calculated power to wheels
