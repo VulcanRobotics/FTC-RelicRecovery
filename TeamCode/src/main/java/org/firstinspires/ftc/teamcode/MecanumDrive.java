@@ -62,7 +62,7 @@ public class MecanumDrive extends OpMode
     private DcMotor rearLeftDrive = null;
     private DcMotor frontRightDrive = null;
     private DcMotor frontLeftDrive = null;
-    private Servo bottomGripper = null;
+    //private Servo bottomGripper = null;
     private Servo topGripper = null;
     private DcMotor elbow = null;
 
@@ -82,7 +82,7 @@ public class MecanumDrive extends OpMode
         frontLeftDrive = hardwareMap.get(DcMotor.class, "frontLeftDrive");
         elbow = hardwareMap.get(DcMotor.class, "elbow");
         topGripper = hardwareMap.get(Servo.class, "topGripper");
-        bottomGripper = hardwareMap.get(Servo.class, "bottomGripper");
+      //  bottomGripper = hardwareMap.get(Servo.class, "bottomGripper");
         /*
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -100,10 +100,10 @@ public class MecanumDrive extends OpMode
 
         if(gamepad2.x == true){
             topGripper.setPosition(90);
-            bottomGripper.setPosition(90);
+        //    bottomGripper.setPosition(90);
         }if(gamepad2.b == true){
             topGripper.setPosition(0);
-            bottomGripper.setPosition(0);
+          //  bottomGripper.setPosition(0);
         }
     }
 
@@ -155,13 +155,13 @@ public class MecanumDrive extends OpMode
         // rightPower = -gamepad1.right_stick_y ;
         if(gamepad2.x == true){
             topGripper.setPosition(90);
-            bottomGripper.setPosition(0);
+            //bottomGripper.setPosition(0);
         }if(gamepad2.b == true){
-            topGripper.setPosition(45);
-            bottomGripper.setPosition(45);
+            topGripper.setPosition(0);
+            //bottomGripper.setPosition(45);
         }
         // Send calculated power to wheels
-
+ 
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.addData("Status", "armPosition: " +elbow.getCurrentPosition());
