@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -60,6 +61,9 @@ public class OmniDrive extends OpMode
     private DcMotor leftDriveTwo = null;
     private DcMotor rightDriveOne = null;
     private DcMotor rightDriveTwo = null;
+    //private Servo bottomGripper = null;
+    private Servo topGripper = null;
+    private DcMotor elbow = null;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -75,6 +79,9 @@ public class OmniDrive extends OpMode
         leftDriveTwo  = hardwareMap.get(DcMotor.class, "leftDrive2");
         rightDriveOne = hardwareMap.get(DcMotor.class, "rightDrive1");
         rightDriveTwo = hardwareMap.get(DcMotor.class, "rightDrive2");
+        elbow = hardwareMap.get(DcMotor.class, "elbow");
+        topGripper = hardwareMap.get(Servo.class, "topGripper");
+        //  bottomGripper = hardwareMap.get(Servo.class, "bottomGripper");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -118,6 +125,7 @@ public class OmniDrive extends OpMode
         // - This uses basic math to combine motions and is easier to drive straight.
         double drive = -gamepad1.left_stick_y;
         double turn  =  gamepad1.right_stick_x;
+        double arm = -gamepad2.left_stick_y;
         leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
         rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
 
@@ -131,10 +139,19 @@ public class OmniDrive extends OpMode
         leftDriveTwo.setPower(leftPower);
         rightDriveOne.setPower(rightPower);
         rightDriveTwo.setPower(rightPower);
+        double elbowPower = Range.clip(arm, -1.0, 1.0);
+        elbow.setPower(elbowPower);
 
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+        if(gamepad2.x == true){
+            topGripper.setPosition(1);
+            //bottomGripper.setPosition(0);
+        }if(gamepad2.b == true) {
+            topGripper.setPosition(0.5);
+            //bottomGripper.setPosition(45);
+        }
     }
 
     /*
