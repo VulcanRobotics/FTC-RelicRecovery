@@ -56,8 +56,10 @@ public class OmniDrive extends OpMode
 {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftDrive = null;
-    private DcMotor rightDrive = null;
+    private DcMotor leftDriveOne = null;
+    private DcMotor leftDriveTwo = null;
+    private DcMotor rightDriveOne = null;
+    private DcMotor rightDriveTwo = null;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -69,13 +71,17 @@ public class OmniDrive extends OpMode
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
-        leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
-        rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
+        leftDriveOne  = hardwareMap.get(DcMotor.class, "leftDrive1");
+        leftDriveTwo  = hardwareMap.get(DcMotor.class, "leftDrive2");
+        rightDriveOne = hardwareMap.get(DcMotor.class, "rightDrive1");
+        rightDriveTwo = hardwareMap.get(DcMotor.class, "rightDrive2");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
-        leftDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftDriveOne.setDirection(DcMotor.Direction.FORWARD);
+        leftDriveTwo.setDirection(DcMotor.Direction.FORWARD);
+        rightDriveOne.setDirection(DcMotor.Direction.REVERSE);
+        rightDriveTwo.setDirection(DcMotor.Direction.REVERSE);
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -121,8 +127,10 @@ public class OmniDrive extends OpMode
         // rightPower = -gamepad1.right_stick_y ;
 
         // Send calculated power to wheels
-        leftDrive.setPower(leftPower);
-        rightDrive.setPower(rightPower);
+        leftDriveOne.setPower(leftPower);
+        leftDriveTwo.setPower(leftPower);
+        rightDriveOne.setPower(rightPower);
+        rightDriveTwo.setPower(rightPower);
 
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
