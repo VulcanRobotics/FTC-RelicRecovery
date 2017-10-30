@@ -74,7 +74,7 @@ public class AlternateMecanumDrive extends OpMode
         rearLeftDrive.setDirection(DcMotor.Direction.REVERSE);
         frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
         rearRightDrive.setDirection(DcMotor.Direction.FORWARD);
-        frontLeftDrive.setDirection(DcMotor.Direction.FORWARD);
+        frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
