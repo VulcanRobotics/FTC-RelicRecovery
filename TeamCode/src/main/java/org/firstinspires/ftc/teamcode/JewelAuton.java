@@ -5,7 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.sch.ftc4914.DriveBase;
+import org.sch.ftc4914.ColorSensorLeg;
+import org.sch.ftc4914.Driveable;
 import org.sch.ftc4914.VladimirMecanum;
 
 /**
@@ -24,16 +25,17 @@ If it is not the right color, knock the other color over
 @Autonomous(name = "Jewel Auton")
 
 public class JewelAuton extends OpMode {
-    ColorSensor sensorColor;
-    int stepNumber = 0;
-    DriveBase robotDrive;
+    private int stepNumber = 0;
+    private Driveable robotDrive;
+    private ColorSensorLeg leg;
     private ElapsedTime runtime = new ElapsedTime();
+
     @Override
     public void init() {
         stepNumber = 0;
-        sensorColor = hardwareMap.get(ColorSensor.class, "sensor_color_distance");
         robotDrive = new VladimirMecanum(hardwareMap);
     }
+
     @Override
     public void init_loop() {
         super.init_loop();
@@ -46,6 +48,6 @@ public class JewelAuton extends OpMode {
 
     @Override
     public void loop() {
-        robotDrive.DriveInputs.drive =
+
     }
 }
