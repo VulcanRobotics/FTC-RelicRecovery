@@ -94,7 +94,7 @@ public class MecanumDrive extends OpMode
         rearLeftDrive.setDirection(DcMotor.Direction.REVERSE);
         frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
         rearRightDrive.setDirection(DcMotor.Direction.FORWARD);
-        frontLeftDrive.setDirection(DcMotor.Direction.FORWARD);
+        frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -134,10 +134,13 @@ public class MecanumDrive extends OpMode
 
 
 
-        frontLeftDrive.setPower(-v1);
+        frontLeftDrive.setPower(v1);
         /*The front left wheel was spinning backwards
         under the "v1". When changed to -v1, it is
         expected to go in the correct direction. */
+        /* UPDATE:  bug was due to erroneously setting frontLeft motor direction 2x in
+        opposite directions;  so switched back to "v1" from "-v1"
+         */
         frontRightDrive.setPower(v2);
         rearLeftDrive.setPower(v3);
         rearRightDrive.setPower(v4);
