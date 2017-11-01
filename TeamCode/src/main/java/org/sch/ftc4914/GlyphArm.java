@@ -20,6 +20,8 @@ public class GlyphArm {
     }
 
     public void moveArm(double pwr) {
+        if (pwr >= .8) pwr = .8;
+        if (pwr <= -.8) pwr = -.8;
         elbow.setPower(pwr);
     }
 
@@ -28,10 +30,10 @@ public class GlyphArm {
     }
 
     public void openGripper() {
-        topGripper.setPosition(.5);
+        topGripper.setPosition(.45);
     }
 
     public void closeGripper() {
-        topGripper.setPosition(1.0);
+        topGripper.setPosition(.8);
     }
 }

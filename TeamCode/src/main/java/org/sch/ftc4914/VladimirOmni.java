@@ -14,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class VladimirOmni implements Driveable {
     private DcMotorEx leftDriveOne, leftDriveTwo, rightDriveOne, rightDriveTwo;
-    private double leftDriveMax, rightDriveMax;
+    private double leftDriveMax = 1.0, rightDriveMax = 1.0;
     private double[] maxWheelSpeeds = new double[2];
 
     public VladimirOmni(HardwareMap hwMap) {
@@ -25,9 +25,9 @@ public class VladimirOmni implements Driveable {
 
         // use PID velocity control on the 1st motor on each side; we'll just use
         // the power setting to have the 2nd motor follow the 1st
-        leftDriveOne.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftDriveOne.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftDriveTwo.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightDriveOne.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightDriveOne.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightDriveTwo.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         leftDriveOne.setDirection(DcMotor.Direction.FORWARD);
@@ -49,10 +49,12 @@ public class VladimirOmni implements Driveable {
 
     @Override
     public void omniDrive(double yIn, double xIn) {
+        xIn = Math.copySign(xIn * xIn, xIn);
+        yIn = Math.copySign(yIn * yIn, yIn);
         double leftVelocity    = Range.clip(yIn + xIn, -1.0, 1.0) * leftDriveMax;
         double rightVelocity   = Range.clip(yIn - xIn, -1.0, 1.0) * rightDriveMax;
-        leftDriveOne.setVelocity(leftVelocity, AngleUnit.RADIANS);
-        rightDriveOne.setVelocity(rightVelocity, AngleUnit.RADIANS);
+        leftDriveOne.setPower(leftVelocity);
+        rightDriveOne.setPower(rightVelocity);
         leftDriveTwo.setPower(leftDriveOne.getPower());
         rightDriveTwo.setPower(rightDriveOne.getPower());
     }

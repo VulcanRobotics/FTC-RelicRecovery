@@ -37,6 +37,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+import org.sch.ftc4914.ColorSensorLeg;
+import org.sch.ftc4914.Driveable;
+import org.sch.ftc4914.GlyphArm;
+import org.sch.ftc4914.VladimirOmni;
+
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode".
  * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
@@ -57,13 +62,17 @@ public class OmniDrive extends OpMode
 {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftDriveOne = null;
+/*    private DcMotor leftDriveOne = null;
     private DcMotor leftDriveTwo = null;
     private DcMotor rightDriveOne = null;
     private DcMotor rightDriveTwo = null;
     //private Servo bottomGripper = null;
     private Servo topGripper = null;
     private DcMotor elbow = null;
+*/
+    private Driveable omniDrive;
+    private GlyphArm arm;
+    private ColorSensorLeg leg;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -75,6 +84,7 @@ public class OmniDrive extends OpMode
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
+/*
         leftDriveOne  = hardwareMap.get(DcMotor.class, "leftDrive1");
         leftDriveTwo  = hardwareMap.get(DcMotor.class, "leftDrive2");
         rightDriveOne = hardwareMap.get(DcMotor.class, "rightDrive1");
@@ -89,7 +99,10 @@ public class OmniDrive extends OpMode
         leftDriveTwo.setDirection(DcMotor.Direction.FORWARD);
         rightDriveOne.setDirection(DcMotor.Direction.REVERSE);
         rightDriveTwo.setDirection(DcMotor.Direction.REVERSE);
-
+*/
+        omniDrive = new VladimirOmni(hardwareMap);
+        arm = new GlyphArm(hardwareMap);
+        leg = new ColorSensorLeg(hardwareMap);
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
     }
@@ -125,33 +138,23 @@ public class OmniDrive extends OpMode
         // - This uses basic math to combine motions and is easier to drive straight.
         double drive = -gamepad1.left_stick_y;
         double turn  =  gamepad1.right_stick_x;
-        double arm = -gamepad2.left_stick_y;
-        leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
-        rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
 
-        // Tank Mode uses one stick to control each wheel.
-        // - This requires no math, but it is hard to drive forward slowly and keep straight.
-        // leftPower  = -gamepad1.left_stick_y ;
-        // rightPower = -gamepad1.right_stick_y ;
-
-        // Send calculated power to wheels
-        leftDriveOne.setPower(leftPower);
-        leftDriveTwo.setPower(leftPower);
-        rightDriveOne.setPower(rightPower);
-        rightDriveTwo.setPower(rightPower);
-        double elbowPower = Range.clip(arm, -1.0, 1.0);
-        elbow.setPower(elbowPower);
+        omniDrive.omniDrive(drive, turn);
+        arm.moveArm(gamepad2.left_stick_y);
 
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
-        telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+        telemetry.addData("Color", "Red: " + leg.getRed() + " Blue: " + leg.getBlue());
+        telemetry.addData("Arm Position", arm.getPosition());
         if(gamepad2.x == true){
-            topGripper.setPosition(1);
+            arm.closeGripper();
             //bottomGripper.setPosition(0);
         }if(gamepad2.b == true) {
-            topGripper.setPosition(0.5);
+            arm.openGripper();
             //bottomGripper.setPosition(45);
         }
+        if (gamepad2.a) leg.retractLeg();
+        if (gamepad2.y) leg.extendLeg();
     }
 
     /*
