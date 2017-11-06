@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.sch.ftc4914.ColorSensorLeg;
 import org.sch.ftc4914.Driveable;
+import org.sch.ftc4914.GlyphArm; //NEEDS TO BE LOOKED AT
 import org.sch.ftc4914.VladimirOmni;
 
 /**
@@ -34,11 +35,13 @@ COLOR SENSOR SENSES towards rear of robot, so:
 
 public class JewelAutonBlue extends OpMode {
     private int stepNumber = 0;
+    private int ZachInt = 0;
     private int loopCounter = 0;
     private Driveable robotDrive;
     private ColorSensorLeg leg;
     private ElapsedTime runtime = new ElapsedTime();
     private float[] hsvValues = {0F, 0F, 0F};
+    private GlyphArm arm; //NEEDS TO BE LOOKED AT
     String jewelString;
 
     @Override
@@ -47,6 +50,7 @@ public class JewelAutonBlue extends OpMode {
         robotDrive = new VladimirOmni(hardwareMap);
         leg = new ColorSensorLeg(hardwareMap);
         jewelString = "NOTHING!";
+        arm = new GlyphArm(hardwareMap); //NEEDS TO BE LOOKED AT
     }
 
     @Override
@@ -61,14 +65,19 @@ public class JewelAutonBlue extends OpMode {
     @Override
     public void loop() {
         switch (stepNumber) {
-            case 0:
-                if (loopCounter == 0) leg.extendLeg();
+            case 0: //Extends the leg to prepare to look at the jewel color
+                if (loopCounter == 0)
+                    leg.extendLeg();
+                while(ZachInt <= 20){
+                    ZachInt += 1;
+                }
                 if (++loopCounter >= 10) {
                     loopCounter = 0;
                     stepNumber += 1;
                 }
+
                 break;
-            case 1:
+            case 1: //Senses the color of the jewel on the right side
 /*
                 COLOR SENSOR SENSES towards rear of robot, so:
                 - since we're blue, if we sense red, we want to drive reverse to knock red away
@@ -84,27 +93,55 @@ public class JewelAutonBlue extends OpMode {
                 }
                 break;
             case 10: // drive forward
-                robotDrive.omniDrive(.25, 0.0);
+                //leg.extendLeg();
+                robotDrive.omniDrive(1.00, 0.0);
+                leg.halfRetractLeg();
+                while(ZachInt >= 0){
+                    ZachInt -= 1;
+                }
                 stepNumber = 50;  // pause and then stop robot
                 break;
             case 20: // drive reverse
-                robotDrive.omniDrive(-.25,0);
+                //leg.extendLeg();
+                robotDrive.omniDrive(-1.00,0);
+                leg.halfRetractLeg();
+                while(ZachInt >= 0){
+                    ZachInt -= 1;
+                }
                 stepNumber = 50; // pause and then stop robot
                 break;
             case 50:            // pause
-                if (++loopCounter >= 15) {
+                /*if (++loopCounter >= 15) {
                     loopCounter = 0;
                     stepNumber +=1;
-                }
+                }*/
+                robotDrive.omniDrive(-10.00, 1.0);
+                stepNumber += 1;
                 break;
-            case 51:            // stop robot
+            //NEEDS TO BE LOOKED AT
+            case 51:
+                //arm.moveArm(-0.5); //moves the arm to allow the leg to get folded back in
+                leg.halfRetractLeg(); //folds leg back to top
+                //arm.moveArm(0.5); //moves arm back to regular position
+                stepNumber += 1;
+
+                //robotDrive.omniDrive(5,0.0);
+
+            case 52:            // stop robot
                 robotDrive.omniDrive(0,0);
                 leg.retractLeg();
                 break;
+
+            /*case 51:            // stop robot
+                robotDrive.omniDrive(0,0);
+                //leg.retractLeg();p
+                break;
+*/
             default:
                 break;
         }
         Color.RGBToHSV(leg.getRed(), leg.getGreen(), leg.getBlue(), hsvValues);
+        telemetry.addData("Motor Position", leg);
         telemetry.addData("Jewel", jewelString);
         telemetry.addData("Colors", "Blue: " + leg.getBlue() + " Red: " + leg.getRed());
         telemetry.addData("HSV", "Hue: " + hsvValues[0] + " Sat: " + hsvValues[1] + " Val: " + hsvValues[2]);
