@@ -62,13 +62,10 @@ public class OmniDrive extends OpMode
 {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-   private DcMotor leftDriveOne = null;
-    private DcMotor leftDriveTwo = null;
-    private DcMotor rightDriveOne = null;
-    private DcMotor rightDriveTwo = null;
+
+
     //private Servo bottomGripper = null;
-    private Servo topGripper = null;
-    private DcMotor elbow = null;
+
 
     private Driveable omniDrive;
     private GlyphArm arm;
@@ -85,20 +82,15 @@ public class OmniDrive extends OpMode
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
 
-        leftDriveOne  = hardwareMap.get(DcMotor.class, "leftDrive1");
-        leftDriveTwo  = hardwareMap.get(DcMotor.class, "leftDrive2");
-        rightDriveOne = hardwareMap.get(DcMotor.class, "rightDrive1");
-        rightDriveTwo = hardwareMap.get(DcMotor.class, "rightDrive2");
-        elbow = hardwareMap.get(DcMotor.class, "elbow");
-        topGripper = hardwareMap.get(Servo.class, "topGripper");
+
+
+
         //  bottomGripper = hardwareMap.get(Servo.class, "bottomGripper");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
-        leftDriveOne.setDirection(DcMotor.Direction.FORWARD);
-        leftDriveTwo.setDirection(DcMotor.Direction.FORWARD);
-        rightDriveOne.setDirection(DcMotor.Direction.REVERSE);
-        rightDriveTwo.setDirection(DcMotor.Direction.REVERSE);
+
+
 
         omniDrive = new VladimirOmni(hardwareMap);
         arm = new GlyphArm(hardwareMap);
@@ -137,12 +129,13 @@ public class OmniDrive extends OpMode
 
         // POV Mode uses left stick to go forward, and right stick to turn.
         // - This uses basic math to combine motions and is easier to drive straight.
-        double drive = -gamepad1.left_stick_y;
-        double turn  =  (gamepad1.right_stick_x);
-        // double turn  =  Math.pow(gamepad1.right_stick_x,3); instead of the line above
+        double drive = -Math.pow(gamepad1.left_stick_y ,3);
+        //double turn  =  (gamepad1.right_stick_x);
+        double turn  =  Math.pow(gamepad1.right_stick_x,3);
 
         omniDrive.omniDrive(drive, turn);
-        arm.moveArm(gamepad2.left_stick_y);
+        arm.moveArm(Math.pow(gamepad2.left_stick_y,3));
+
 
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
@@ -155,7 +148,7 @@ public class OmniDrive extends OpMode
             arm.openGripper();
             //bottomGripper.setPosition(45);
         }
-        //if (gamepad2.a) leg.retractLeg();
+        //if (gamepad2.a) leg.halfRetractLeg();
         //if (gamepad2.y) leg.extendLeg();
     }
 
