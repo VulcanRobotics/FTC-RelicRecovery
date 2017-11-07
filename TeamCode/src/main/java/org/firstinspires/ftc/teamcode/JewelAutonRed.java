@@ -35,7 +35,6 @@ COLOR SENSOR SENSES towards rear of robot, so:
 
 public class JewelAutonRed extends OpMode {
     private int stepNumber = 0;
-    private int ZachInt = 0;
     private int loopCounter = 0;
     private Driveable robotDrive;
     private ColorSensorLeg leg;
@@ -69,9 +68,7 @@ public class JewelAutonRed extends OpMode {
                 if (loopCounter == 0)
                     leg.extendLeg();
 
-                while(ZachInt <= 20){
-                    ZachInt += 1;
-                }
+
                 if (++loopCounter >= 10) {
                     loopCounter = 0;
                     stepNumber += 1;
@@ -96,27 +93,22 @@ public class JewelAutonRed extends OpMode {
                 //leg.extendLeg();
                 robotDrive.omniDrive(1.00, 0.0);
                 leg.halfRetractLeg();
-                while(ZachInt >= 0){
-                    ZachInt -= 1;
-                }
+
                 stepNumber = 50;  // pause and then stop robot
                 break;
             case 20: // drive reverse
                 //leg.extendLeg();
                 robotDrive.omniDrive(-1.00,0);
                 leg.halfRetractLeg();
-                while(ZachInt >= 0){
-                    ZachInt -= 1;
-                }
+
                 stepNumber = 50; // pause and then stop robot
                 break;
             case 50:            // pause
-                /*if (++loopCounter >= 15) {
+                if (++loopCounter >= 15) {
                     loopCounter = 0;
                     stepNumber +=1;
-                }*/
-                robotDrive.omniDrive(-10.00, 1.0);
-                stepNumber += 1;
+                }
+
                 break;
             //NEEDS TO BE LOOKED AT
             case 51:
@@ -126,14 +118,9 @@ public class JewelAutonRed extends OpMode {
                 stepNumber += 1;
             case 52:            // stop robot
                 robotDrive.omniDrive(0,0);
-                //leg.retractLeg();
                 break;
 
-            /*case 51:            // stop robot
-                robotDrive.omniDrive(0,0);
-                //leg.retractLeg();p
-                break;
-*/
+            
             default:
                 break;
         }
