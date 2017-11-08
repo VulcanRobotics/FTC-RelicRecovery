@@ -41,6 +41,8 @@ public class JewelAutonRed extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private float[] hsvValues = {0F, 0F, 0F};
     private GlyphArm arm; //NEEDS TO BE LOOKED AT
+    private String direction = "";
+    private String armType = "classic"; //classic, 4-bar, or elevator
     String jewelString;
 
     @Override
@@ -92,6 +94,7 @@ public class JewelAutonRed extends OpMode {
             case 10: // drive forward
                 //leg.extendLeg();
                 robotDrive.omniDrive(1.00, 0.0);
+                direction = "forward";
                 leg.halfRetractLeg();
 
                 stepNumber = 50;  // pause and then stop robot
@@ -99,6 +102,7 @@ public class JewelAutonRed extends OpMode {
             case 20: // drive reverse
                 //leg.extendLeg();
                 robotDrive.omniDrive(-1.00,0);
+                direction = "backward";
                 leg.halfRetractLeg();
 
                 stepNumber = 50; // pause and then stop robot
@@ -115,8 +119,26 @@ public class JewelAutonRed extends OpMode {
                 //arm.moveArm(-0.5); //moves the arm to allow the leg to get folded back in
                 leg.halfRetractLeg(); //folds leg back to top
                 //arm.moveArm(0.5); //moves arm back to regular position
-                stepNumber += 1;
-            case 52:            // stop robot
+                if(direction == "forward"){
+                    stepNumber += 9;
+                }else {
+                    stepNumber += 19;
+                }
+            case 60: //robot drives to safe zone (went forwards)
+                robotDrive.omniDrive(-4.50, 0);
+
+                stepNumber += 20;
+            case 70: //robot drives to safe zone (went backwards)
+                robotDrive.omniDrive(-2.50, 0);
+
+                stepNumber += 10;
+            case 80: //put glyph into cryptobox
+                arm.moveArm(-1.0); //ready to drive into c.box
+                robotDrive.omniDrive(1, -1); //turns robot?
+                robotDrive.omniDrive(1, 0);
+
+                stepNumber += 10;
+            case 90: // stop robot
                 robotDrive.omniDrive(0,0);
                 break;
 
