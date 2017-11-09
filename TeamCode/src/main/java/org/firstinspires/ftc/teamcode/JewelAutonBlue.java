@@ -35,13 +35,14 @@ COLOR SENSOR SENSES towards rear of robot, so:
 
 public class JewelAutonBlue extends OpMode {
     private int stepNumber = 0;
-
     private int loopCounter = 0;
     private Driveable robotDrive;
     private ColorSensorLeg leg;
     private ElapsedTime runtime = new ElapsedTime();
     private float[] hsvValues = {0F, 0F, 0F};
     private GlyphArm arm; //NEEDS TO BE LOOKED AT
+    private String direction = "";
+    private String armType = "classic"; //classic, 4-bar, or elevator
     String jewelString;
 
     @Override
@@ -74,7 +75,6 @@ public class JewelAutonBlue extends OpMode {
                     loopCounter = 0;
                     stepNumber += 1;
                 }
-
                 break;
             case 1: //Senses the color of the jewel on the right side
 /*
@@ -94,6 +94,7 @@ public class JewelAutonBlue extends OpMode {
             case 10: // drive forward
                 //leg.extendLeg();
                 robotDrive.omniDrive(1.00, 0.0);
+                direction = "forward";
                 leg.halfRetractLeg();
 
                 stepNumber = 50;  // pause and then stop robot
@@ -101,7 +102,9 @@ public class JewelAutonBlue extends OpMode {
             case 20: // drive reverse
                 //leg.extendLeg();
                 robotDrive.omniDrive(-1.00,0);
+                direction = "backward";
                 leg.halfRetractLeg();
+
                 stepNumber = 50; // pause and then stop robot
                 break;
             case 50:            // pause
@@ -110,31 +113,40 @@ public class JewelAutonBlue extends OpMode {
                     stepNumber +=1;
                 }
 
-
                 break;
             //NEEDS TO BE LOOKED AT
             case 51:
                 //arm.moveArm(-0.5); //moves the arm to allow the leg to get folded back in
                 leg.halfRetractLeg(); //folds leg back to top
                 //arm.moveArm(0.5); //moves arm back to regular position
-                stepNumber += 1;
+                if(direction == "forward"){
+                    stepNumber += 9;
+                }else {
+                    stepNumber += 19;
+                }
+            case 60: //robot drives to safe zone (went forwards)
+                robotDrive.omniDrive(-4.50, 0);
 
-                //robotDrive.omniDrive(5,0.0);
+                stepNumber += 20;
+            case 70: //robot drives to safe zone (went backwards)
+                robotDrive.omniDrive(-2.50, 0);
 
-            case 52:            // stop robot
+                stepNumber += 10;
+            case 80: //put glyph into cryptobox
+                arm.moveArm(-1.0); //ready to drive into c.box
+                robotDrive.omniDrive(1, -1); //turns robot?
+                robotDrive.omniDrive(1, 0);
+
+                stepNumber += 10;
+            case 90: // stop robot
                 robotDrive.omniDrive(0,0);
                 break;
 
-            /*case 51:            // stop robot
-                robotDrive.omniDrive(0,0);
-                //leg.retractLeg();p
-                break;
-*/
+
             default:
                 break;
         }
         Color.RGBToHSV(leg.getRed(), leg.getGreen(), leg.getBlue(), hsvValues);
-        telemetry.addData("Motor Position", leg);
         telemetry.addData("Jewel", jewelString);
         telemetry.addData("Colors", "Blue: " + leg.getBlue() + " Red: " + leg.getRed());
         telemetry.addData("HSV", "Hue: " + hsvValues[0] + " Sat: " + hsvValues[1] + " Val: " + hsvValues[2]);
