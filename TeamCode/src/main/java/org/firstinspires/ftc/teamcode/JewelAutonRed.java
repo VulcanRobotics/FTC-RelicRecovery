@@ -79,16 +79,16 @@ public class JewelAutonRed extends OpMode {
             case 1: //Senses the color of the jewel on the right side
 /*
                 COLOR SENSOR SENSES towards rear of robot, so:
-                - since we're blue, if we sense red, we want to drive reverse to knock red away
-                - since we're blue, if we sense blue, we want to drive forward to knock red away
+                - since we're red, if we sense red, we want to drive forward to knock blue away
+                - since we're red, if we sense blue, we want to drive reverse to knock blue away
 */
                 if (leg.blueJewelDetected()) {
                     jewelString = "BLUE JEWEL!";
-                    stepNumber = 20; // drive forward
+                    stepNumber = 20; // drive reverse
                 }
                 if (leg.redJewelDetected()) {
                     jewelString = "RED JEWEL!";
-                    stepNumber = 10; // drive reverse
+                    stepNumber = 10; // drive forward
                 }
                 break;
             case 10: // drive forward
