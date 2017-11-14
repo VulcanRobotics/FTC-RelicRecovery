@@ -26,7 +26,7 @@ public class ColorSensorLeg {
         //if (colorSensor.blue() >= 50 && colorSensor.red() <= 25) return true;
         // Hue >=180 && <=300
         float hue = getHue();
-        if (hue > 180.0 && hue < 300.0) return true;
+        if (hue > 180.0 && hue < 300.0 || (hue > 35 && hue < 70)) return true;
         return false;
     }
 
@@ -58,18 +58,14 @@ public class ColorSensorLeg {
         return hsvValues[0];
     }
 
-    public void extendLeg() {
-        knee.setPosition(1.0);
+    public void extend() {
+        knee.setPosition(0.9);
         colorSensor.enableLed(true);
     }
 
-    public void retractLeg() {
-        knee.setPosition(0.0);
-        colorSensor.enableLed(false);
-    }
-
-    public void halfRetractLeg(){
+    public void home() {
         knee.setPosition(0.3);
         colorSensor.enableLed(false);
     }
+
 }

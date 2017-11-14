@@ -9,6 +9,11 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Created by Ron on 10/29/2017.
  */
 
+/* elbow encoder readings:
+    - positive elbow command increases encoder, and rotates arm towards front of robot
+    - negative elbow command decreases encoder, and rotates arm towards rear of robot
+ */
+
 public class GlyphArm {
     DcMotorEx elbow;
     Servo topGripper;

@@ -25,7 +25,7 @@ public class JewelDetectionTest extends OpMode {
 
     @Override
     public void start() {
-        leg.extendLeg();
+        leg.extend();
     }
 
     @Override
@@ -37,14 +37,18 @@ public class JewelDetectionTest extends OpMode {
         else
             jewelString = "NOTHING!";
 
+        if (gamepad2.a) leg.home();
+        if (gamepad2.y) leg.extend();
+
         Color.RGBToHSV(leg.getRed(), leg.getGreen(), leg.getBlue(), hsvValues);
         telemetry.addData("Jewel", jewelString);
         telemetry.addData("Colors", "Blue: " + leg.getBlue() + " Red: " + leg.getRed());
         telemetry.addData("HSV", "Hue: " + hsvValues[0] + " Sat: " + hsvValues[1] + " Val: " + hsvValues[2]);
+
     }
 
     @Override
     public void stop() {
-        leg.retractLeg();
+        leg.home();
     }
 }

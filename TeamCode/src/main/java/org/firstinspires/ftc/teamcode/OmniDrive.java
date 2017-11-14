@@ -67,7 +67,7 @@ public class OmniDrive extends OpMode
     //private Servo bottomGripper = null;
 
 
-    private Driveable omniDrive;
+    private VladimirOmni omniDrive;
     private GlyphArm arm;
     private ColorSensorLeg leg;
 
@@ -104,6 +104,7 @@ public class OmniDrive extends OpMode
      */
     @Override
     public void init_loop() {
+        telemetry.addData("Wheels", "LtPos: " + omniDrive.getLeftPos() + " RtPos: " + omniDrive.getRightPos());
     }
 
     /*
@@ -112,7 +113,7 @@ public class OmniDrive extends OpMode
     @Override
     public void start() {
         runtime.reset();
-        leg.halfRetractLeg();
+        leg.home();
     }
 
     /*
@@ -134,13 +135,15 @@ public class OmniDrive extends OpMode
         double turn  =  Math.pow(gamepad1.right_stick_x,3);
 
         omniDrive.omniDrive(drive, turn);
-        arm.moveArm(Math.pow(gamepad2.left_stick_y,3));
+        double armCommand = Math.pow(gamepad2.left_stick_y,3);
+        arm.moveArm(armCommand);
 
 
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.addData("Color", "Red: " + leg.getRed() + " Blue: " + leg.getBlue());
-        telemetry.addData("Arm Position", arm.getPosition());
+        telemetry.addData("Arm", "Pos: " + arm.getPosition() + "cmd: " + armCommand);
+        telemetry.addData("Wheels", "LtPos: " + omniDrive.getLeftPos() + " RtPos: " + omniDrive.getRightPos());
         if(gamepad2.x == true){
             arm.closeGripper();
             //bottomGripper.setPosition(0);
@@ -148,8 +151,8 @@ public class OmniDrive extends OpMode
             arm.openGripper();
             //bottomGripper.setPosition(45);
         }
-        //if (gamepad2.a) leg.halfRetractLeg();
-        //if (gamepad2.y) leg.extendLeg();
+        if (gamepad2.a) leg.home();
+        if (gamepad2.y) leg.extend();
     }
 
     /*

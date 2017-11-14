@@ -36,7 +36,7 @@ COLOR SENSOR SENSES towards rear of robot, so:
 public class JewelAutonBlue extends OpMode {
     private int stepNumber = 0;
     private int loopCounter = 0;
-    private Driveable robotDrive;
+    private VladimirOmni robotDrive;
     private ColorSensorLeg leg;
     private ElapsedTime runtime = new ElapsedTime();
     private float[] hsvValues = {0F, 0F, 0F};
@@ -56,6 +56,7 @@ public class JewelAutonBlue extends OpMode {
 
     @Override
     public void init_loop() {
+        telemetry.addData("Wheels", "LtPos: " + robotDrive.getLeftPos() + " RtPos: " + robotDrive.getRightPos());
     }
 
     @Override
@@ -68,8 +69,7 @@ public class JewelAutonBlue extends OpMode {
         switch (stepNumber) {
             case 0: //Extends the leg to prepare to look at the jewel color
                 if (loopCounter == 0)
-                    leg.extendLeg();
-
+                    leg.extend();
 
                 if (++loopCounter >= 10) {
                     loopCounter = 0;
@@ -92,52 +92,50 @@ public class JewelAutonBlue extends OpMode {
                 }
                 break;
             case 10: // drive forward
-                //leg.extendLeg();
-                robotDrive.omniDrive(1.00, 0.0);
+                robotDrive.omniDrive(0.25, 0.0);
                 direction = "forward";
-                leg.halfRetractLeg();
 
                 stepNumber = 50;  // pause and then stop robot
                 break;
             case 20: // drive reverse
                 //leg.extendLeg();
-                robotDrive.omniDrive(-1.00,0);
+                robotDrive.omniDrive(-.25,0);
                 direction = "backward";
-                leg.halfRetractLeg();
 
                 stepNumber = 50; // pause and then stop robot
                 break;
             case 50:            // pause
                 if (++loopCounter >= 15) {
                     loopCounter = 0;
-                    stepNumber +=1;
-                }
+                    stepNumber += 1;
 
+                }
                 break;
             //NEEDS TO BE LOOKED AT
             case 51:
                 //arm.moveArm(-0.5); //moves the arm to allow the leg to get folded back in
-                leg.halfRetractLeg(); //folds leg back to top
+                leg.home(); //folds leg back to top
                 //arm.moveArm(0.5); //moves arm back to regular position
                 if(direction == "forward"){
                     stepNumber += 9;
                 }else {
                     stepNumber += 19;
                 }
+                break;
             case 60: //robot drives to safe zone (went forwards)
-                robotDrive.omniDrive(-4.50, 0);
-
-                stepNumber += 20;
+                robotDrive.omniDrive(-.5, 0);
+                stepNumber = 80;
+                break;
             case 70: //robot drives to safe zone (went backwards)
-                robotDrive.omniDrive(-2.50, 0);
-
-                stepNumber += 10;
+                robotDrive.omniDrive(-.5, 0);
+                stepNumber = 80;
+                break;
             case 80: //put glyph into cryptobox
-                arm.moveArm(-1.0); //ready to drive into c.box
-                robotDrive.omniDrive(1, -1); //turns robot?
-                robotDrive.omniDrive(1, 0);
-
+                //arm.moveArm(1.0); //ready to drive into c.box
+                robotDrive.omniDrive(0, -1); //turns robot?
+                //robotDrive.omniDrive(1, 0);
                 stepNumber += 10;
+                break;
             case 90: // stop robot
                 robotDrive.omniDrive(0,0);
                 break;
