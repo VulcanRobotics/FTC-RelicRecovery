@@ -102,6 +102,7 @@ public class VladimirOmni implements Driveable {
         if (currentMode != DriveMode.POWER) {
             leftDriveOne.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             rightDriveOne.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            currentMode = DriveMode.POWER;
         }
         leftDriveOne.setPower(leftVelocity);
         rightDriveOne.setPower(rightVelocity);
