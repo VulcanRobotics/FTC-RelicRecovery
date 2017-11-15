@@ -6,8 +6,10 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.sch.ftc4914.ColorSensorLeg;
 import org.sch.ftc4914.GlyphArm; //NEEDS TO BE LOOKED AT
+import org.sch.ftc4914.VladimirEye;
 import org.sch.ftc4914.VladimirOmni;
 
 /**
@@ -35,6 +37,7 @@ public class JewelAutonBlue extends OpMode {
     private int stepNumber = 0;
     private int loopCounter = 0;
     private VladimirOmni robotDrive;
+    private VladimirEye robotEye;
     private ColorSensorLeg leg;
     private ElapsedTime runtime = new ElapsedTime();
     private float[] hsvValues = {0F, 0F, 0F};
@@ -48,6 +51,7 @@ public class JewelAutonBlue extends OpMode {
     public void init() {
         stepNumber = 0;
         robotDrive = new VladimirOmni(hardwareMap);
+        robotEye = new VladimirEye(hardwareMap, VuforiaLocalizer.CameraDirection.FRONT);
         leg = new ColorSensorLeg(hardwareMap);
         jewelString = "NOTHING!";
         arm = new GlyphArm(hardwareMap); //NEEDS TO BE LOOKED AT
@@ -61,6 +65,7 @@ public class JewelAutonBlue extends OpMode {
     @Override
     public void start() {
         runtime.reset();
+        robotEye.startLooking();
     }
 
     @Override
@@ -169,6 +174,7 @@ public class JewelAutonBlue extends OpMode {
 
             case 90: // stop robot
                 arm.moveArm(0);
+                robotEye.stopLooking();
                 robotDrive.omniDrive(0,0);
                 break;
 
@@ -181,5 +187,6 @@ public class JewelAutonBlue extends OpMode {
         telemetry.addData("Colors", "Blue: " + leg.getBlue() + " Red: " + leg.getRed());
         telemetry.addData("HSV", "Hue: " + hsvValues[0] + " Sat: " + hsvValues[1] + " Val: " + hsvValues[2]);
         telemetry.addData("Step Number: ", stepNumber);
+        telemetry.addData("VUmark: ", robotEye.getPictograph());
     }
 }
