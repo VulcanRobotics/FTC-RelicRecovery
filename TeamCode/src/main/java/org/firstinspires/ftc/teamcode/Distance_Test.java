@@ -49,6 +49,7 @@ public class Distance_Test extends OpMode{
             case 24:
                 currentDistanceAttempt = 24;
                 robotDrive.distanceDrive(0.5, 24, 24);
+                stepNumber += 1;
                 break;
             case 25:
                 if(!robotDrive.isBusy()){

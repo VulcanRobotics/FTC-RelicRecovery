@@ -113,7 +113,7 @@ public class JewelAutonBlue extends OpMode {
                 stepNumber = 50; // pause and then stop robot
                 break;
             case 50:            // pause
-                if (!robotDrive.isBusy()) {
+                if (!robotDrive.isBusy() || ++ loopCounter>= 30) {
                     loopCounter = 0;
                     stepNumber += 1;
 
@@ -137,7 +137,7 @@ public class JewelAutonBlue extends OpMode {
                 break;
 
             case 61:
-                if (!robotDrive.isBusy()) {
+                if (!robotDrive.isBusy() || ++ loopCounter>= 30) {
                     loopCounter = 0;
                     stepNumber =80;
 
@@ -150,7 +150,7 @@ public class JewelAutonBlue extends OpMode {
                 break;
 
             case 71:
-                if (!robotDrive.isBusy()) {
+                if (!robotDrive.isBusy() || ++ loopCounter>= 30) {
                     loopCounter = 0;
                     stepNumber =80;
 
@@ -159,14 +159,15 @@ public class JewelAutonBlue extends OpMode {
 
             case 80: //put glyph into cryptobox
                  //ready to drive into c.box
-               robotDrive.distanceDrive(0.5,(int) (1.5*Math.PI),(int)(-1.5*Math.PI));
+               robotDrive.distanceDrive(0.5,(int) (-4.0*Math.PI),(int)(4.0*Math.PI));
                 //robotDrive.omniDrive(0, 1); //turns robot
                     stepNumber += 1;
 
 
                 break;
             case 81:
-                if (!robotDrive.isBusy()){
+                if (!robotDrive.isBusy() || ++ loopCounter>= 30) {
+                    loopCounter = 0;
                     stepNumber=90;
 
                 }
