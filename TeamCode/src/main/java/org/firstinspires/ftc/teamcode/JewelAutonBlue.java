@@ -168,11 +168,31 @@ public class JewelAutonBlue extends OpMode {
             case 81:
                 if (!robotDrive.isBusy() || ++ loopCounter>= 30) {
                     loopCounter = 0;
-                    stepNumber=90;
+                    stepNumber=85;
 
                 }
                 break;
-
+            case 85:
+                robotDrive.distanceDrive(0.5, -20, -20);
+                if (++loopCounter >= 30) {
+                    loopCounter = 0;
+                    stepNumber += 1;
+                }
+                break;
+            case 86:
+                robotDrive.distanceDrive(1, 2, 0); //jostle right
+                if (++loopCounter >= 30) {
+                    loopCounter = 0;
+                    stepNumber += 1;
+                }
+                break;
+            case 87:
+                robotDrive.distanceDrive(1, 2, 5); //jostle left
+                if (++loopCounter >= 30) {
+                    loopCounter = 0;
+                    stepNumber += 1;
+                }
+                break;
             case 90: // stop robot
                 arm.moveArm(0);
                 robotEye.stopLooking();
