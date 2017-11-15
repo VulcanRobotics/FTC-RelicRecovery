@@ -24,12 +24,12 @@ public class VladimirOmni implements Driveable {
     private double[] maxWheelSpeeds = new double[2];
     private enum DriveMode {POWER, DISTANCE, VELOCITY};
     private DriveMode currentMode;
+    public int numCalls = 0;
 
     // encoder counts per inch of travel is the number of encoder ticks per wheel rev, multiplied
     // by the circumference of the wheel.  Circumference is (pi * diameter)
-    private int countsPerInch = (int)(1080.0 *  // encoder ticks per wheel rev)
-                                      4.0 *     // wheel diameter
-                                      Math.PI);
+    private int countsPerInch = (int)(1080.0 /  // encoder ticks per wheel rev)
+            (4.0 * Math.PI));    // wheel diameter
 
     public VladimirOmni(HardwareMap hwMap) {
         leftDriveOne = hwMap.get(DcMotorEx.class, "leftDrive1");
@@ -56,6 +56,7 @@ public class VladimirOmni implements Driveable {
     }
 
     public void distanceDrive(double speed, int leftInches, int rightInches) {
+        numCalls += 1;
         int newLeftTarget = leftDriveOne.getCurrentPosition() + (leftInches * countsPerInch),
             newRightTarget = rightDriveOne.getCurrentPosition() + (rightInches * countsPerInch);
 
@@ -106,6 +107,14 @@ public class VladimirOmni implements Driveable {
         rightDriveOne.setPower(rightVelocity);
         leftDriveTwo.setPower(leftDriveOne.getPower());
         rightDriveTwo.setPower(rightDriveOne.getPower());
+    }
+
+    public int getLeftTarget(){
+        return leftDriveOne.getTargetPosition();
+    }
+
+    public int getRightTarget() {
+        return rightDriveOne.getTargetPosition();
     }
 
     // do nothing, since this class provides Omni (differential) drive

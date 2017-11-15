@@ -67,13 +67,15 @@ public class JewelAutonBlue extends OpMode {
     public void loop() {
         switch (stepNumber) {
             case 0: //Extends the leg to prepare to look at the jewel color
-                if (loopCounter == 0)
+                if (loopCounter == 0){
                     leg.extend();
-
-                if (++loopCounter >= 10) {
+                }
+                if (++loopCounter >= 20) {
                     loopCounter = 0;
                     stepNumber += 1;
                 }
+
+
                 break;
             case 1: //Senses the color of the jewel on the right side
 /*
