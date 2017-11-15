@@ -29,16 +29,12 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 import org.sch.ftc4914.ColorSensorLeg;
-import org.sch.ftc4914.Driveable;
+import org.sch.ftc4914.FourBarArm;
 import org.sch.ftc4914.GlyphArm;
 import org.sch.ftc4914.VladimirOmni;
 
@@ -68,7 +64,7 @@ public class OmniDrive extends OpMode
 
 
     private VladimirOmni omniDrive;
-    private GlyphArm arm;
+    private FourBarArm arm;
     private ColorSensorLeg leg;
 
     /*
@@ -93,7 +89,7 @@ public class OmniDrive extends OpMode
 
 
         omniDrive = new VladimirOmni(hardwareMap);
-        arm = new GlyphArm(hardwareMap);
+        arm = new FourBarArm(hardwareMap);
         leg = new ColorSensorLeg(hardwareMap);
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");

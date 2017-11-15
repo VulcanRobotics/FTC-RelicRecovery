@@ -3,12 +3,10 @@ package org.firstinspires.ftc.teamcode;
 import android.graphics.Color;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.sch.ftc4914.ColorSensorLeg;
-import org.sch.ftc4914.Driveable;
 import org.sch.ftc4914.GlyphArm; //NEEDS TO BE LOOKED AT
 import org.sch.ftc4914.VladimirOmni;
 
@@ -44,6 +42,7 @@ public class JewelAutonBlue extends OpMode {
     private String direction = "";
     private String armType = "classic"; //classic, 4-bar, or elevator
     String jewelString;
+    //private double turn90 = 1.5
 
     @Override
     public void init() {
@@ -92,20 +91,22 @@ public class JewelAutonBlue extends OpMode {
                 }
                 break;
             case 10: // drive forward
-                robotDrive.omniDrive(0.25, 0.0);
+                robotDrive.distanceDrive(0.35,5,5);
+                //robotDrive.omniDrive(0.35, 0.0);
                 direction = "forward";
 
                 stepNumber = 50;  // pause and then stop robot
                 break;
             case 20: // drive reverse
                 //leg.extendLeg();
-                robotDrive.omniDrive(-.25,0);
+                robotDrive.distanceDrive(0.35,-5,-5);
+                //robotDrive.omniDrive(-0.35,0);
                 direction = "backward";
 
                 stepNumber = 50; // pause and then stop robot
                 break;
             case 50:            // pause
-                if (++loopCounter >= 15) {
+                if (!robotDrive.isBusy()) {
                     loopCounter = 0;
                     stepNumber += 1;
 
@@ -114,6 +115,7 @@ public class JewelAutonBlue extends OpMode {
             //NEEDS TO BE LOOKED AT
             case 51:
                 //arm.moveArm(-0.5); //moves the arm to allow the leg to get folded back in
+                robotDrive.omniDrive(0,0);
                 leg.home(); //folds leg back to top
                 //arm.moveArm(0.5); //moves arm back to regular position
                 if(direction == "forward"){
@@ -123,20 +125,48 @@ public class JewelAutonBlue extends OpMode {
                 }
                 break;
             case 60: //robot drives to safe zone (went forwards)
-                robotDrive.omniDrive(-.5, 0);
-                stepNumber = 80;
+                robotDrive.distanceDrive(0.5, -41,-41);
+               stepNumber+=1;
                 break;
+
+            case 61:
+                if (!robotDrive.isBusy()) {
+                    loopCounter = 0;
+                    stepNumber =80;
+
+                }
+                break;
+
             case 70: //robot drives to safe zone (went backwards)
-                robotDrive.omniDrive(-.5, 0);
-                stepNumber = 80;
+                robotDrive.distanceDrive(0.5, -31,-31);
+                stepNumber+=1;
                 break;
+
+            case 71:
+                if (!robotDrive.isBusy()) {
+                    loopCounter = 0;
+                    stepNumber =80;
+
+                }
+                break;
+
             case 80: //put glyph into cryptobox
-                //arm.moveArm(1.0); //ready to drive into c.box
-                robotDrive.omniDrive(0, -1); //turns robot?
-                //robotDrive.omniDrive(1, 0);
-                stepNumber += 10;
+                 //ready to drive into c.box
+               robotDrive.distanceDrive(0.5,(int) (1.5*Math.PI),(int)(-1.5*Math.PI));
+                //robotDrive.omniDrive(0, 1); //turns robot
+                    stepNumber += 1;
+
+
                 break;
+            case 81:
+                if (!robotDrive.isBusy()){
+                    stepNumber=90;
+
+                }
+                break;
+
             case 90: // stop robot
+                arm.moveArm(0);
                 robotDrive.omniDrive(0,0);
                 break;
 
