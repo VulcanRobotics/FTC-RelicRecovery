@@ -180,5 +180,6 @@ public class JewelAutonBlue extends OpMode {
         telemetry.addData("Jewel", jewelString);
         telemetry.addData("Colors", "Blue: " + leg.getBlue() + " Red: " + leg.getRed());
         telemetry.addData("HSV", "Hue: " + hsvValues[0] + " Sat: " + hsvValues[1] + " Val: " + hsvValues[2]);
+        telemetry.addData("Step Number: ", stepNumber);
     }
 }
