@@ -128,9 +128,9 @@ public class OmniDrive extends OpMode
         // - This uses basic math to combine motions and is easier to drive straight.
         double drive = -Math.pow(gamepad1.left_stick_y ,3);
         //double turn  =  (gamepad1.right_stick_x);
-        double turn  =  Math.pow(gamepad1.right_stick_x,3);
-
-        omniDrive.omniDrive(drive, turn);
+        double turn  =  Math.pow(gamepad1.right_stick_x,3); //for Auton
+        double drivingTurn = (Math.pow(gamepad1.right_stick_x, 3) /1.4); //used for when people are controlling robot
+        omniDrive.omniDrive(drive, drivingTurn);
         double armCommand = Math.pow(gamepad2.left_stick_y,3);
 
         arm.moveArm(armCommand);
