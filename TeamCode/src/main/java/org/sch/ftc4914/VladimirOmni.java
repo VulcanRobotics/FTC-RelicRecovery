@@ -28,7 +28,7 @@ public class VladimirOmni implements Driveable {
 
     // encoder counts per inch of travel is the number of encoder ticks per wheel rev, multiplied
     // by the circumference of the wheel.  Circumference is (pi * diameter)
-    private int countsPerInch = (int)(1080.0 /  // encoder ticks per wheel rev)
+    private double countsPerInch = (1080.0 /  // encoder ticks per wheel rev)
             (4.0 * Math.PI));    // wheel diameter
 
     public VladimirOmni(HardwareMap hwMap) {
@@ -55,10 +55,10 @@ public class VladimirOmni implements Driveable {
         return leftDriveOne.isBusy() || rightDriveOne.isBusy();
     }
 
-    public void distanceDrive(double speed, int leftInches, int rightInches) {
+    public void distanceDrive(double speed, double leftInches, double rightInches) {
         numCalls += 1;
-        int newLeftTarget = leftDriveOne.getCurrentPosition() + (leftInches * countsPerInch),
-            newRightTarget = rightDriveOne.getCurrentPosition() + (rightInches * countsPerInch);
+        int newLeftTarget = (int)(leftDriveOne.getCurrentPosition() + (leftInches * countsPerInch)),
+            newRightTarget = (int)(rightDriveOne.getCurrentPosition() + (rightInches * countsPerInch));
 
         leftDriveOne.setTargetPosition(newLeftTarget);
         rightDriveOne.setTargetPosition(newRightTarget);
