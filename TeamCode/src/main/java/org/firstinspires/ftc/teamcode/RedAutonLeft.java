@@ -175,15 +175,8 @@ public class RedAutonLeft extends OpMode {
             case 81:
                 if (!robotDrive.isBusy() || ++ loopCounter>= 30) {
                     loopCounter = 0;
-                    stepNumber=85;
+                    stepNumber=86;
 
-                }
-                break;
-            case 85:
-                robotDrive.distanceDrive(0.5, -20, -20);
-                if (++loopCounter >= 30) {
-                    loopCounter = 0;
-                    stepNumber += 1;
                 }
                 break;
             case 86:

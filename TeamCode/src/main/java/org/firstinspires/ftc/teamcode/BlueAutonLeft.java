@@ -33,7 +33,7 @@ COLOR SENSOR SENSES towards rear of robot, so:
 
 After knocking jewel out of the way, drive the required 'S' pattern to park in the safe zone, facing
 the cryptobox:
-    reverse 12in, turn right 90deg, reverse 12in, turn left 90deg, reverse 12in
+    reverse 24in, turn right 90deg, reverse 12in, turn left 90deg, reverse 12in
 
 Glyph will be placed in rear of robot at start
 */
@@ -141,10 +141,10 @@ public class BlueAutonLeft extends OpMode {
             /*
             After knocking jewel out of the way, drive the required 'S' pattern to park in the safe zone, facing
             the cryptobox:
-            reverse 12in, turn right 90deg, reverse 12in, turn left 90deg, reverse ~12in
+            reverse 24in, turn right 90deg, reverse 12in, turn left 90deg, reverse ~12in
             */
-            case 60: //robot drove 5in forward to knock jewel away, so drive 17in reverse
-                robotDrive.distanceDrive(0.5, -17,-17);
+            case 60: //robot drove 5in forward to knock jewel away, so drive 29in reverse
+                robotDrive.distanceDrive(0.5, -29,-29);
                stepNumber+=1;
                 break;
             case 61: // wait for drive to complete
@@ -153,8 +153,8 @@ public class BlueAutonLeft extends OpMode {
                     stepNumber = 75;
                 }
                 break;
-            case 70: //robot drove 5in reverse to knock jewel away, so drive 7in reverse
-                robotDrive.distanceDrive(0.5, -7,-7);
+            case 70: //robot drove 5in reverse to knock jewel away, so drive 19in reverse
+                robotDrive.distanceDrive(0.5, -19,-19);
                 stepNumber+=1;
                 break;
             case 71: // wait for drive to complete
@@ -201,15 +201,8 @@ public class BlueAutonLeft extends OpMode {
             case 91:
                 if (!robotDrive.isBusy() || ++ loopCounter>= 30) {
                     loopCounter = 0;
-                    stepNumber=95;
+                    stepNumber=96;
 
-                }
-                break;
-            case 95:
-                robotDrive.distanceDrive(0.5, -20, -20);
-                if (++loopCounter >= 30) {
-                    loopCounter = 0;
-                    stepNumber += 1;
                 }
                 break;
             case 96:
