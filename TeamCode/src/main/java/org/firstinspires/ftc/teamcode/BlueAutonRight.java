@@ -16,24 +16,29 @@ import org.sch.ftc4914.VladimirOmni;
  * Created by hlexer on 10/27/17.
  */
 
+/*
+BLUE RIGHT
+This auton mode is for when we're on the BLUE alliance, starting from the balancing stone
+on the RIGHT side of the alliance station (as seen by the drivers facing the field from the alliance
+station)
 
-
-/*TODO
-Put out leg
-Use color sensor to scan jewel
-If it it the right color, knock it over
-If it is not the right color, knock the other color over
+The color sensor extends from the right side of the robot, which means that when starting on this stone
+the rear of the robot will face towards the safe zone / cryptobox.  That means we must drive reverse
+to get to the safe zone, and turn left to face the cryptobox
 
 COLOR SENSOR SENSES towards rear of robot, so:
-- if we're red, and we sense red, we want to drive forward to knock blue away
-- if we're red, and we sense blue, we want to drive reverse to knock blue away
-- if we're blue, and we sense red, we want to drive reverse to knock red away
-- if we're blue, and we sense blue, we want to drive forward to knock red away
+- since we're blue, if we sense red, we want to drive reverse to knock red away
+- since we're blue, if we sense blue, we want to drive forward to knock red away
 
+After knocking jewel out of the way, drive reverse the required distance to reach the safe zone,
+and turn left 90deg to face cryptobox
+
+Glyph will be placed in rear of robot at start
 */
-@Autonomous(name = "Jewel Auton Blue")
 
-public class JewelAutonBlue extends OpMode {
+@Autonomous(name = "Blue Right")
+
+public class BlueAutonRight extends OpMode {
     private int stepNumber = 0;
     private int loopCounter = 0;
     private VladimirOmni robotDrive;
@@ -190,7 +195,7 @@ public class JewelAutonBlue extends OpMode {
                 robotDrive.distanceDrive(1, 2, 5); //jostle left
                 if (++loopCounter >= 30) {
                     loopCounter = 0;
-                    stepNumber += 1;
+                    stepNumber = 90;
                 }
                 break;
             case 90: // stop robot
