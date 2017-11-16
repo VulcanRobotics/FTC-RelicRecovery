@@ -132,6 +132,7 @@ public class OmniDrive extends OpMode
 
         omniDrive.omniDrive(drive, turn);
         double armCommand = Math.pow(gamepad2.left_stick_y,3);
+
         arm.moveArm(armCommand);
 
 
