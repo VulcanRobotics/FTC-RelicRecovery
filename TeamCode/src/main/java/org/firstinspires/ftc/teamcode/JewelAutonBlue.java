@@ -124,6 +124,10 @@ public class JewelAutonBlue extends OpMode {
                 //arm.moveArm(-0.5); //moves the arm to allow the leg to get folded back in
                 robotDrive.omniDrive(0,0);
                 leg.home(); //folds leg back to top
+                if (++loopCounter >= 20) {
+                    loopCounter = 0;
+                    stepNumber += 1;
+                }
                 //arm.moveArm(0.5); //moves arm back to regular position
                 if(direction == "forward"){
                     stepNumber += 9;
@@ -193,13 +197,13 @@ public class JewelAutonBlue extends OpMode {
                     stepNumber += 1;
                 }
                 break;
-            case 90: // stop robot
+            case 90: //Back up into safe zone
+                robotDrive.distanceDrive(0.5, 5, 5); //"releases" glyph
+                break;
+            case 91:  // stop robot
                 arm.moveArm(0);
                 robotEye.stopLooking();
                 robotDrive.omniDrive(0,0);
-                break;
-
-
             default:
                 break;
         }

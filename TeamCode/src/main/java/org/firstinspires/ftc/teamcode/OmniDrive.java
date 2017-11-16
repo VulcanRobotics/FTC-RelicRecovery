@@ -108,8 +108,8 @@ public class OmniDrive extends OpMode
      */
     @Override
     public void start() {
-        runtime.reset();
         leg.home();
+        runtime.reset();
     }
 
     /*
