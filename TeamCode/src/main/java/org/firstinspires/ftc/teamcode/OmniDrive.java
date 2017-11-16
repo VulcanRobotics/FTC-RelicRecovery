@@ -38,7 +38,7 @@ import org.sch.ftc4914.FourBarArm;
 import org.sch.ftc4914.GlyphArm;
 import org.sch.ftc4914.VladimirOmni;
 
-/**
+/
  * This file contains an example of an iterative (Non-Linear) "OpMode".
  * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
  * The names of OpModes appear on the menu of the FTC Driver Station.
