@@ -66,6 +66,7 @@ public class OmniDrive extends OpMode
     private VladimirOmni omniDrive;
     private FourBarArm arm;
     private ColorSensorLeg leg;
+    private relicArm relicArm;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -91,6 +92,7 @@ public class OmniDrive extends OpMode
         omniDrive = new VladimirOmni(hardwareMap);
         arm = new FourBarArm(hardwareMap);
         leg = new ColorSensorLeg(hardwareMap);
+        //relicArm = new relicArm(hardwareMap);
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
     }
@@ -148,8 +150,11 @@ public class OmniDrive extends OpMode
             arm.openGripper();
             //bottomGripper.setPosition(45);
         }
-        if (gamepad2.a) leg.home();
-        if (gamepad2.y) leg.extend();
+        //if (gamepad2.a) leg.home();
+        //if (gamepad2.y) leg.extend();
+        if (gamepad2.a) {
+            //relicArm.
+        }
     }
 
     /*

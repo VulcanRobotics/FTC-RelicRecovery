@@ -68,4 +68,9 @@ public class ColorSensorLeg {
         colorSensor.enableLed(false);
     }
 
+    public void homeReconfigured(){
+        knee.setPosition(0.0);
+        colorSensor.enableLed(false);
+    }
+
 }

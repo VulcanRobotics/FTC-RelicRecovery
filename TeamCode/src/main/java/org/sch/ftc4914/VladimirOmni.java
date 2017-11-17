@@ -52,7 +52,7 @@ public class VladimirOmni implements Driveable {
     }
 
     public boolean isBusy() {
-        return leftDriveOne.isBusy() || rightDriveOne.isBusy();
+        return leftDriveOne.isBusy() && rightDriveOne.isBusy();
     }
 
     public void distanceDrive(double speed, double leftInches, double rightInches) {

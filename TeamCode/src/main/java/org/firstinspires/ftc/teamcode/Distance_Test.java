@@ -95,6 +95,7 @@ public class Distance_Test extends OpMode{
         telemetry.addData("leftDistance: ", robotDrive.getLeftPos());
         telemetry.addData("number of calls: ", robotDrive.numCalls);
         telemetry.addData("Current Distance Drive Attempt: ", currentDistanceAttempt);
+        telemetry.addData("StepNumber: ", stepNumber);
     }
 
 

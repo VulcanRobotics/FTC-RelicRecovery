@@ -8,37 +8,21 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.sch.ftc4914.ColorSensorLeg;
-import org.sch.ftc4914.GlyphArm; //NEEDS TO BE LOOKED AT
+import org.sch.ftc4914.GlyphArm;
 import org.sch.ftc4914.VladimirEye;
 import org.sch.ftc4914.VladimirOmni;
 
 /**
- * Created by hlexer on 10/27/17.
+ * Created by Zach on 11/17/17.
  */
 
 /*
-BLUE RIGHT
-This auton mode is for when we're on the BLUE alliance, starting from the balancing stone
-on the RIGHT side of the alliance station (as seen by the drivers facing the field from the alliance
-station)
-
-The color sensor extends from the right side of the robot, which means that when starting on this stone
-the rear of the robot will face towards the safe zone / cryptobox.  That means we must drive reverse
-to get to the safe zone, and turn left to face the cryptobox
-
-COLOR SENSOR SENSES towards rear of robot, so:
-- since we're blue, if we sense red, we want to drive reverse to knock red away
-- since we're blue, if we sense blue, we want to drive forward to knock red away
-
-After knocking jewel out of the way, drive reverse the required distance to reach the safe zone,
-and turn left 90deg to face cryptobox
-
-Glyph will be placed in rear of robot at start
+    This is a program that is
 */
 
-@Autonomous(name = "Blue Right")
+@Autonomous(name = "relicArmController")
 
-public class BlueAutonRight extends OpMode {
+public class relicArm extends OpMode {
     private int stepNumber = 0;
     private int loopCounter = 0;
     private VladimirOmni robotDrive;
@@ -124,94 +108,106 @@ public class BlueAutonRight extends OpMode {
 
                 }
                 break;
-            //NEEDS TO BE LOOKED AT
+
             case 51:
                 //arm.moveArm(-0.5); //moves the arm to allow the leg to get folded back in
                 robotDrive.omniDrive(0,0);
                 leg.home(); //folds leg back to top
-                if (++loopCounter >= 20) {
-                    loopCounter = 0;
-                    stepNumber += 1;
-                }
                 //arm.moveArm(0.5); //moves arm back to regular position
                 if(direction == "forward"){
-                    stepNumber += 9;
+                    stepNumber = 60;
                 }else {
-                    stepNumber += 19;
+                    stepNumber = 70;
                 }
                 break;
-            case 60: //robot drives to safe zone (went forwards)
-                robotDrive.distanceDrive(0.5, -41,-41);
+            /*
+            After knocking jewel out of the way, drive the required 'S' pattern to park in the safe zone, facing
+            the cryptobox:
+            reverse 24in, turn right 90deg, reverse 12in, turn left 90deg, reverse ~12in
+            */
+            case 60: //robot drove 5in forward to knock jewel away, so drive 29in reverse
+                robotDrive.distanceDrive(0.5, -29,-29);
                stepNumber+=1;
                 break;
-
-            case 61:
+            case 61: // wait for drive to complete
                 if (!robotDrive.isBusy() || ++ loopCounter>= 30) {
                     loopCounter = 0;
-                    stepNumber =80;
-
+                    stepNumber = 75;
                 }
                 break;
-
-            case 70: //robot drives to safe zone (went backwards)
-                robotDrive.distanceDrive(0.5, -31,-31);
+            case 70: //robot drove 5in reverse to knock jewel away, so drive 19in reverse
+                robotDrive.distanceDrive(0.5, -19,-19);
                 stepNumber+=1;
                 break;
-
-            case 71:
+            case 71: // wait for drive to complete
                 if (!robotDrive.isBusy() || ++ loopCounter>= 30) {
                     loopCounter = 0;
-                    stepNumber = 91; //normally 80, but this stops it at safe zone
-
+                    stepNumber = 75;
                 }
                 break;
 
-            case 80: //put glyph into cryptobox
-                 //ready to drive into c.box
-               robotDrive.distanceDrive(0.5,(int) (-1.5*Math.PI),(int)(1.5*Math.PI)); //4.0, -4.0
-                //robotDrive.omniDrive(0, 1); //turns robot
-                    stepNumber += 1;
-
-
-                break;
-            case 81:
-                if (!robotDrive.isBusy() || ++ loopCounter>= 30) {
-                    loopCounter = 0;
-                    stepNumber=82;
-
-                }
-                break;
-            case 82: //drives into the cryptobox
-                robotDrive.distanceDrive(0.5, 15, 15);
+            case 75: // turn 90deg right
+                robotDrive.distanceDrive(0.5, 4.0 * Math.PI, -4.0 * Math.PI);
                 stepNumber += 1;
                 break;
-            case 83:
-                if (++loopCounter >= 30) {
+            case 76: // wait for turn to complete
+                if (!robotDrive.isBusy() || ++ loopCounter>= 30) {
                     loopCounter = 0;
-                    stepNumber = 91; //normally 86, but this stops it at when it pushes into cryptobox
+                    stepNumber += 1;
                 }
                 break;
-            case 86:
+            case 77: // drive 12in reverse
+                robotDrive.distanceDrive(0.5, -12, -12);
+                stepNumber += 1;
+                break;
+            case 78: // wait for drive to complete
+                if (!robotDrive.isBusy() || ++ loopCounter>= 30) {
+                    loopCounter = 0;
+                    stepNumber += 1;
+                }
+                break;
+            case 79: // turn 90deg left
+                robotDrive.distanceDrive(0.5, -4.0 * Math.PI, 4.0 * Math.PI);
+                stepNumber += 1;
+                break;
+            case 80: // wait for turn to complete
+                if (!robotDrive.isBusy() || ++ loopCounter>= 30) {
+                    loopCounter = 0;
+                    stepNumber += 1;
+                }
+                break;
+            case 81: // drive 12in reverse
+                robotDrive.distanceDrive(0.5, -12, -12);
+                stepNumber = 91;
+                break;
+            case 91:
+                if (!robotDrive.isBusy() || ++ loopCounter>= 30) {
+                    loopCounter = 0;
+                    stepNumber=96;
+
+                }
+                break;
+            case 96:
                 robotDrive.distanceDrive(1, 2, 0); //jostle right
                 if (++loopCounter >= 30) {
                     loopCounter = 0;
                     stepNumber += 1;
                 }
                 break;
-            case 87:
+            case 97:
                 robotDrive.distanceDrive(1, 2, 5); //jostle left
                 if (++loopCounter >= 30) {
                     loopCounter = 0;
-                    stepNumber = 90;
+                    stepNumber = 100;
                 }
                 break;
-            case 90: //Back up into safe zone
-                robotDrive.distanceDrive(0.5, 5, 5); //"releases" glyph
-                break;
-            case 91:  // stop robot
+            case 100: // stop robot
                 arm.moveArm(0);
                 robotEye.stopLooking();
                 robotDrive.omniDrive(0,0);
+                break;
+
+
             default:
                 break;
         }
