@@ -40,7 +40,7 @@ Glyph will be placed in rear of robot at start
 
 @Autonomous(name = "Blue Left")
 
-public class BlueAutonLeft extends OpMode {
+public class  BlueAutonLeft extends OpMode {
     private int stepNumber = 0;
     private int loopCounter = 0;
     private VladimirOmni robotDrive;

@@ -29,43 +29,35 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
-import org.sch.ftc4914.ColorSensorLeg;
-import org.sch.ftc4914.FourBarArm;
-import org.sch.ftc4914.GlyphArm;
-import org.sch.ftc4914.VladimirOmni;
-
-/
- // This file contains an example of an iterative (Non-Linear) "OpMode".
- //An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
- //The names of OpModes appear on the menu of the FTC Driver Station.
- //When an selection is made from the menu, the corresponding OpMode
- //class is instantiated on the Robot Controller and executed.
- /*
+/**
+ * This file contains an example of an iterative (Non-Linear) "OpMode".
+ * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
+ * The names of OpModes appear on the menu of the FTC Driver Station.
+ * When an selection is made from the menu, the corresponding OpMode
+ * class is instantiated on the Robot Controller and executed.
+ *
  * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
  * It includes all the skeletal structure that all iterative OpModes contain.
  *
  * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
- //Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
+ * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="OmniDrive", group="Iterative Opmode")
-//@Disabled
-public class OmniDrive extends OpMode
+@TeleOp(name="Basic: Simple Drive   OpMode", group="Iterative Opmode")
+
+public class Simple_Drive extends OpMode
 {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-
-
-    //private Servo bottomGripper = null;
-
-
-    private VladimirOmni omniDrive;
-    private FourBarArm arm;
-    private ColorSensorLeg leg;
+    private DcMotor leftDrive = null;
+    private DcMotor rightDrive = null;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -77,20 +69,14 @@ public class OmniDrive extends OpMode
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
-
-
-
-
-        //  bottomGripper = hardwareMap.get(Servo.class, "bottomGripper");
+        leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
+        rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
+        leftDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightDrive.setDirection(DcMotor.Direction.REVERSE);
 
-
-
-        omniDrive = new VladimirOmni(hardwareMap);
-        arm = new FourBarArm(hardwareMap);
-        leg = new ColorSensorLeg(hardwareMap);
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
     }
@@ -100,7 +86,6 @@ public class OmniDrive extends OpMode
      */
     @Override
     public void init_loop() {
-        telemetry.addData("Wheels", "LtPos: " + omniDrive.getLeftPos() + " RtPos: " + omniDrive.getRightPos());
     }
 
     /*
@@ -108,7 +93,6 @@ public class OmniDrive extends OpMode
      */
     @Override
     public void start() {
-        leg.home();
         runtime.reset();
     }
 
@@ -126,29 +110,23 @@ public class OmniDrive extends OpMode
 
         // POV Mode uses left stick to go forward, and right stick to turn.
         // - This uses basic math to combine motions and is easier to drive straight.
-        double drive = -Math.pow(gamepad1.left_stick_y ,3);
-        //double turn  =  (gamepad1.right_stick_x);
-        double turn  =  Math.pow(gamepad1.right_stick_x,3);
+        double drive = -gamepad1.left_stick_y;
+        double turn  =  gamepad1.right_stick_x;
+        leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
+        rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
 
-        omniDrive.omniDrive(drive, turn);
-        double armCommand = Math.pow(gamepad2.left_stick_y,3);
-        arm.moveArm(armCommand);
+        // Tank Mode uses one stick to control each wheel.
+        // - This requires no math, but it is hard to drive forward slowly and keep straight.
+        // leftPower  = -gamepad1.left_stick_y ;
+        // rightPower = -gamepad1.right_stick_y ;
 
+        // Send calculated power to wheels
+        leftDrive.setPower(leftPower);
+        rightDrive.setPower(rightPower);
 
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
-        telemetry.addData("Color", "Red: " + leg.getRed() + " Blue: " + leg.getBlue());
-        telemetry.addData("Arm", "Pos: " + arm.getPosition() + "cmd: " + armCommand);
-        telemetry.addData("Wheels", "LtPos: " + omniDrive.getLeftPos() + " RtPos: " + omniDrive.getRightPos());
-        if(gamepad2.x == true){
-            arm.closeGripper();
-            //bottomGripper.setPosition(0);
-        }if(gamepad2.b == true) {
-            arm.openGripper();
-            //bottomGripper.setPosition(45);
-        }
-        if (gamepad2.a) leg.home();
-        if (gamepad2.y) leg.extend();
+        telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
     }
 
     /*
