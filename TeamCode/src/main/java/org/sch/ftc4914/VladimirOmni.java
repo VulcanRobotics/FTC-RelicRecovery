@@ -52,10 +52,18 @@ public class VladimirOmni implements Driveable {
     }
 
     public boolean isBusy() {
-        return leftDriveOne.isBusy() && rightDriveOne.isBusy();
+        return stdBusy();
     }
 
     public void distanceDrive(double speed, double leftInches, double rightInches) {
+        standardDistanceDrive(speed, leftInches, rightInches);
+    }
+
+    private boolean stdBusy() {
+        return leftDriveOne.isBusy() && rightDriveOne.isBusy();
+    }
+
+    private void standardDistanceDrive(double speed, double leftInches, double rightInches) {
         numCalls += 1;
         int newLeftTarget = (int)(leftDriveOne.getCurrentPosition() + (leftInches * countsPerInch)),
             newRightTarget = (int)(rightDriveOne.getCurrentPosition() + (rightInches * countsPerInch));
@@ -68,6 +76,25 @@ public class VladimirOmni implements Driveable {
             currentMode = DriveMode.DISTANCE;
         }
 
+        leftDriveOne.setPower(speed);
+        leftDriveTwo.setPower(Math.copySign(speed,leftInches));
+        rightDriveOne.setPower(speed);
+        rightDriveTwo.setPower(Math.copySign(speed,rightInches));
+
+    }
+
+    private boolean simpleBusy() {
+        return (Math.abs(leftDriveOne.getCurrentPosition()) <= Math.abs(leftDriveOne.getTargetPosition()) &&
+                Math.abs(rightDriveOne.getCurrentPosition()) <= Math.abs(rightDriveOne.getTargetPosition()));
+    }
+
+    private void simpleDistanceDrive(double speed, double leftInches, double rightInches) {
+        numCalls += 1;
+        int newLeftTarget = (int)(leftDriveOne.getCurrentPosition() + (leftInches * countsPerInch)),
+            newRightTarget = (int)(rightDriveOne.getCurrentPosition() + (rightInches * countsPerInch));
+
+        leftDriveOne.setTargetPosition(newLeftTarget);
+        rightDriveOne.setTargetPosition(newRightTarget);
         leftDriveOne.setPower(speed);
         leftDriveTwo.setPower(Math.copySign(speed,leftInches));
         rightDriveOne.setPower(speed);

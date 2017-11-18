@@ -150,7 +150,8 @@ public class RedAutonRight extends OpMode {
             case 61: // wait for drive to complete
                 if (!robotDrive.isBusy() || ++ loopCounter>= 30) {
                     loopCounter = 0;
-                    stepNumber = 75;
+                    //stepNumber = 75;
+                    stepNumber = 100;   // don't S turn or jostle, just stop
                 }
                 break;
             case 70: //robot drove 5in forwards to knock jewel away, so drive 19in forwards
@@ -160,7 +161,8 @@ public class RedAutonRight extends OpMode {
             case 71: // wait for drive to complete
                 if (!robotDrive.isBusy() || ++ loopCounter>= 30) {
                     loopCounter = 0;
-                    stepNumber = 75;
+                    // stepNumber = 75;
+                    stepNumber = 100;   // don't S turn or jostle, just stop
                 }
                 break;
 
@@ -219,6 +221,7 @@ public class RedAutonRight extends OpMode {
                     stepNumber = 100;
                 }
                 break;
+
             case 100: // stop robot
                 arm.moveArm(0);
                 robotEye.stopLooking();
@@ -230,6 +233,8 @@ public class RedAutonRight extends OpMode {
                 break;
         }
         Color.RGBToHSV(leg.getRed(), leg.getGreen(), leg.getBlue(), hsvValues);
+        telemetry.addData("Left","Target: " + robotDrive.getLeftTarget() + " Actual: " + robotDrive.getLeftPos());
+        telemetry.addData("Right","Target: " + robotDrive.getRightTarget() + " Actual: " + robotDrive.getRightPos());
         telemetry.addData("Jewel", jewelString);
         telemetry.addData("Colors", "Blue: " + leg.getBlue() + " Red: " + leg.getRed());
         telemetry.addData("HSV", "Hue: " + hsvValues[0] + " Sat: " + hsvValues[1] + " Val: " + hsvValues[2]);

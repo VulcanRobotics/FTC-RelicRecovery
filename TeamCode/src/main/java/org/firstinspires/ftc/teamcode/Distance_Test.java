@@ -22,6 +22,14 @@ public class Distance_Test extends OpMode{
         robotDrive = new VladimirOmni(hardwareMap);
     }
 
+    /*
+ * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
+ */
+    @Override
+    public void init_loop() {
+        telemetry.addData("Wheels", "LtPos: " + robotDrive.getLeftPos() + " RtPos: " + robotDrive.getRightPos());
+    }
+
     @Override
     public void start() {
     }
@@ -89,10 +97,8 @@ public class Distance_Test extends OpMode{
         if(!robotDrive.isBusy()){
             robotDrive.omniDrive(0,0);
         }
-        telemetry.addData("rightTargetDistance: ", robotDrive.getRightTarget());
-        telemetry.addData("rightDistance: ", robotDrive.getRightPos());
-        telemetry.addData("leftTargetDistance: ", robotDrive.getLeftTarget());
-        telemetry.addData("leftDistance: ", robotDrive.getLeftPos());
+        telemetry.addData("Left","Target: " + robotDrive.getLeftTarget() + " Actual: " + robotDrive.getLeftPos());
+        telemetry.addData("Right","Target: " + robotDrive.getRightTarget() + " Actual: " + robotDrive.getRightPos());
         telemetry.addData("number of calls: ", robotDrive.numCalls);
         telemetry.addData("Current Distance Drive Attempt: ", currentDistanceAttempt);
         telemetry.addData("StepNumber: ", stepNumber);

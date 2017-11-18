@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import android.graphics.Color;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -21,7 +22,7 @@ import org.sch.ftc4914.VladimirOmni;
 */
 
 @Autonomous(name = "relicArmController")
-
+@Disabled
 public class relicArm extends OpMode {
     private int stepNumber = 0;
     private int loopCounter = 0;
