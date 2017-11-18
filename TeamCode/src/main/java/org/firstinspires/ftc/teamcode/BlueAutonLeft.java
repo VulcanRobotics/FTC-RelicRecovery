@@ -103,9 +103,15 @@ public class BlueAutonLeft extends OpMode {
                     jewelString = "RED JEWEL!";
                     stepNumber = 20; // drive reverse
                 }
+                if (++loopCounter >= 100) {
+                    jewelString = "NO JEWEL";
+                    loopCounter = 0;
+                    direction = "none";
+                    stepNumber = 51;
+                }
                 break;
             case 10: // drive forward
-                robotDrive.distanceDrive(0.35,5,5);
+                robotDrive.distanceDrive(0.30,5,5);
                 //robotDrive.omniDrive(0.35, 0.0);
                 direction = "forward";
 
@@ -113,7 +119,7 @@ public class BlueAutonLeft extends OpMode {
                 break;
             case 20: // drive reverse
                 //leg.extendLeg();
-                robotDrive.distanceDrive(0.35,-5,-5);
+                robotDrive.distanceDrive(0.30,-5,-5);
                 //robotDrive.omniDrive(-0.35,0);
                 direction = "backward";
 
@@ -131,12 +137,27 @@ public class BlueAutonLeft extends OpMode {
                 //arm.moveArm(-0.5); //moves the arm to allow the leg to get folded back in
                 robotDrive.omniDrive(0,0);
                 leg.home(); //folds leg back to top
+                stepNumber += 1;
+                break;
+            case 52:
+                if (++loopCounter >= 20) {
+                    loopCounter = 0;
+                    stepNumber += 1;
+                }
+                break;
+            case 53:
                 //arm.moveArm(0.5); //moves arm back to regular position
                 if(direction == "forward"){
                     stepNumber = 60;
-                }else {
+                }else if(direction == "backward"){
                     stepNumber = 70;
+                }else{
+                    stepNumber = 55;
                 }
+                break;
+            case 55:
+                robotDrive.distanceDrive(0.5, -24, -24);
+                stepNumber = 61;
                 break;
             /*
             After knocking jewel out of the way, drive the required 'S' pattern to park in the safe zone, facing

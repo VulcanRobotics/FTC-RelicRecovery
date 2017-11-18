@@ -101,9 +101,15 @@ public class BlueAutonRight extends OpMode {
                     jewelString = "RED JEWEL!";
                     stepNumber = 20; // drive reverse
                 }
+                if (++loopCounter >= 100){
+                    jewelString = "NO STRING";
+                    loopCounter = 0;
+                    direction = "none";
+                    stepNumber = 51;
+                }
                 break;
             case 10: // drive forward
-                robotDrive.distanceDrive(0.35,5,5);
+                robotDrive.distanceDrive(0.30,5,5);
                 //robotDrive.omniDrive(0.35, 0.0);
                 direction = "forward";
 
@@ -111,7 +117,7 @@ public class BlueAutonRight extends OpMode {
                 break;
             case 20: // drive reverse
                 //leg.extendLeg();
-                robotDrive.distanceDrive(0.35,-5,-5);
+                robotDrive.distanceDrive(0.30,-5,-5);
                 //robotDrive.omniDrive(-0.35,0);
                 direction = "backward";
 
@@ -128,17 +134,29 @@ public class BlueAutonRight extends OpMode {
             case 51:
                 //arm.moveArm(-0.5); //moves the arm to allow the leg to get folded back in
                 robotDrive.omniDrive(0,0);
-                leg.home(); //folds leg back to top
+                leg.home(); //folds leg back to
+                stepNumber += 1;
+                break;
+            case 52:
                 if (++loopCounter >= 20) {
                     loopCounter = 0;
                     stepNumber += 1;
                 }
+                break;
+            case 53:
                 //arm.moveArm(0.5); //moves arm back to regular position
                 if(direction == "forward"){
-                    stepNumber += 9;
-                }else {
-                    stepNumber += 19;
+                    stepNumber = 60;
+                }else if(direction == "backward"){
+                    stepNumber = 70;
                 }
+                else{
+                    stepNumber = 55;
+                }
+                break;
+            case 55:
+                robotDrive.distanceDrive(0.5, -36, -36);
+                stepNumber = 61;
                 break;
             case 60: //robot drives to safe zone (went forwards)
                 robotDrive.distanceDrive(0.5, -41,-41);

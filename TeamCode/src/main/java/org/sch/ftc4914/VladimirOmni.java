@@ -49,6 +49,10 @@ public class VladimirOmni implements Driveable {
         leftDriveTwo.setDirection(DcMotor.Direction.FORWARD);
         rightDriveOne.setDirection(DcMotor.Direction.REVERSE);
         rightDriveTwo.setDirection(DcMotor.Direction.REVERSE);
+        leftDriveOne.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftDriveTwo.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightDriveOne.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightDriveTwo .setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     public boolean isBusy() {

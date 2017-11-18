@@ -140,7 +140,7 @@ public class OmniDrive extends OpMode
 
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
-        telemetry.addData("Color", "Red: " + leg.getRed() + " Blue: " + leg.getBlue());
+//        telemetry.addData("Color", "Red: " + leg.getRed() + " Blue: " + leg.getBlue());
         telemetry.addData("Arm", "Pos: " + arm.getPosition() + "cmd: " + armCommand);
         telemetry.addData("Wheels", "LtPos: " + omniDrive.getLeftPos() + " RtPos: " + omniDrive.getRightPos());
         if(gamepad2.x == true){

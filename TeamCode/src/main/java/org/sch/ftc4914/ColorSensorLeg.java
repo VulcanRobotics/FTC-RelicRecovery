@@ -5,6 +5,8 @@ import android.graphics.Color;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoControllerEx;
+import com.qualcomm.robotcore.hardware.configuration.ServoConfiguration;
 
 /**
  * Created by Ron on 10/29/2017.
@@ -19,6 +21,12 @@ public class ColorSensorLeg {
         colorSensor = hwMap.get(ColorSensor.class, "sensor_color_distance");
         colorSensor.enableLed(false);
     }
+
+    /*public boolean noJewelDetected() {
+        float hue = getHue();
+        if(hue > 15 && hue <35) return true;
+        return false;
+    }*/
 
     public boolean blueJewelDetected() {
         // blue std value is ~34
@@ -59,7 +67,8 @@ public class ColorSensorLeg {
     }
 
     public void extend() {
-        knee.setPosition(0.9);
+        knee.setPosition(0.87 );
+
         colorSensor.enableLed(true);
     }
 
