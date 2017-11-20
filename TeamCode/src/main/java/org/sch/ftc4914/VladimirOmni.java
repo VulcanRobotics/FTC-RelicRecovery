@@ -115,7 +115,12 @@ public class VladimirOmni implements Driveable {
         maxWheelSpeeds[1] = rightDriveOne.getVelocity(AngleUnit.RADIANS);
         return maxWheelSpeeds;
     }
-
+    public double getLeftVel(){
+        return leftDriveOne.getVelocity(AngleUnit.RADIANS);
+    }
+    public double getRightVel(){
+        return rightDriveOne.getVelocity(AngleUnit.RADIANS);
+    }
     public int getLeftPos() {
         return leftDriveOne.getCurrentPosition();
     }

@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.sun.tools.javac.code.Symbol;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 import org.sch.ftc4914.ColorSensorLeg;
 import org.sch.ftc4914.Driveable;
 import org.sch.ftc4914.VladimirOmni;
@@ -16,11 +17,13 @@ public class MotorTest extends OpMode {
     VladimirOmni omniDrive;
     ColorSensorLeg leg;
     double[] wheelSpeeds;
+    double Velocity =0;
 
     @Override
     public void init() {
         leg = new ColorSensorLeg(hardwareMap);
         omniDrive = new VladimirOmni(hardwareMap);
+
     }
 
     @Override
@@ -36,7 +39,11 @@ public class MotorTest extends OpMode {
             telemetry.addData("Right", "Vel: " + wheelSpeeds[1] + " Pos: " + omniDrive.getRightPos());
 
         } else {
-            omniDrive.omniDrive(0,0);
+            Velocity = gamepad1.left_stick_y;
+            omniDrive.omniDrive(Velocity,0);
+            telemetry.addData("Left", "Vel: " + omniDrive.getLeftVel() + " Pos: " + omniDrive.getLeftPos());
+            telemetry.addData("Right", "Vel: " + omniDrive.getRightVel() + " Pos: " + omniDrive.getRightPos());
+
         }
     }
 }
