@@ -66,7 +66,7 @@ public class OmniDrive extends OpMode
     private VladimirOmni omniDrive;
     private FourBarArm arm;
     private ColorSensorLeg leg;
-    private relicArm relicArm;
+    private relicArm relicArmExtender;
 
     /*
      * Code to run ONCE when the driver hits INIT

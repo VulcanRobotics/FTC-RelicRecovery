@@ -28,23 +28,14 @@ public class relicArm extends OpMode {
     private int loopCounter = 0;
     private VladimirOmni robotDrive;
     private VladimirEye robotEye;
-    private ColorSensorLeg leg;
     private ElapsedTime runtime = new ElapsedTime();
-    private float[] hsvValues = {0F, 0F, 0F};
-    private GlyphArm arm; //NEEDS TO BE LOOKED AT
-    private String direction = "";
-    private String armType = "classic"; //classic, 4-bar, or elevator
-    String jewelString;
-    //private double turn90 = 1.5
+    //xprivate relicArmExtender arm;
 
     @Override
     public void init() {
         stepNumber = 0;
         robotDrive = new VladimirOmni(hardwareMap);
-        robotEye = new VladimirEye(hardwareMap, VuforiaLocalizer.CameraDirection.FRONT);
-        leg = new ColorSensorLeg(hardwareMap);
-        jewelString = "NOTHING!";
-        arm = new GlyphArm(hardwareMap); //NEEDS TO BE LOOKED AT
+        //relicArmExtender = new VladimirOmni(hardwareMap);
     }
 
     @Override
@@ -58,6 +49,9 @@ public class relicArm extends OpMode {
         robotEye.startLooking();
     }
 
+    public void loop() {
+    }
+    /*
     @Override
     public void loop() {
         switch (stepNumber) {
@@ -73,11 +67,11 @@ public class relicArm extends OpMode {
 
                 break;
             case 1: //Senses the color of the jewel on the right side
-/*
+
                 COLOR SENSOR SENSES towards rear of robot, so:
                 - since we're blue, if we sense red, we want to drive reverse to knock red away
                 - since we're blue, if we sense blue, we want to drive forward to knock red away
-*/
+
                 if (leg.blueJewelDetected()) {
                     jewelString = "BLUE JEWEL!";
                     stepNumber = 10; // drive forward
@@ -121,11 +115,11 @@ public class relicArm extends OpMode {
                     stepNumber = 70;
                 }
                 break;
-            /*
+
             After knocking jewel out of the way, drive the required 'S' pattern to park in the safe zone, facing
             the cryptobox:
             reverse 24in, turn right 90deg, reverse 12in, turn left 90deg, reverse ~12in
-            */
+
             case 60: //robot drove 5in forward to knock jewel away, so drive 29in reverse
                 robotDrive.distanceDrive(0.5, -29,-29);
                stepNumber+=1;
@@ -212,11 +206,12 @@ public class relicArm extends OpMode {
             default:
                 break;
         }
+
         Color.RGBToHSV(leg.getRed(), leg.getGreen(), leg.getBlue(), hsvValues);
         telemetry.addData("Jewel", jewelString);
         telemetry.addData("Colors", "Blue: " + leg.getBlue() + " Red: " + leg.getRed());
         telemetry.addData("HSV", "Hue: " + hsvValues[0] + " Sat: " + hsvValues[1] + " Val: " + hsvValues[2]);
         telemetry.addData("Step Number: ", stepNumber);
         telemetry.addData("VUmark: ", robotEye.getPictograph());
-    }
+    }*/
 }
