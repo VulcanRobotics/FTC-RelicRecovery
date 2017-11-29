@@ -34,11 +34,11 @@ public class RelicArm {
     public int getPosition(){
         return relicArm.getCurrentPosition();
     }
-    public int pushOutArm(){
+    public void pushOutArm(){
         relicArm.setTargetPosition(-1); //This pushes out the arm
     }
 
-    public int pullOutArm(){
+    public void pullOutArm(){
         relicArm.setTargetPosition(-1); //This pulls in the arm
         //unfortunately there is not a current program that is able pull in. This may be with a diff. command,
         //or it may just happen with rubber bands.

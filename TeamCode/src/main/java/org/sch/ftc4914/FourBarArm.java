@@ -45,9 +45,8 @@ public class FourBarArm {
     public int getPosition() {
         return elbow.getCurrentPosition();
     }
-
     public void openGripper() {
-        leftGripper.setPosition(0.3);
+        leftGripper.setPosition(0.43);
         rightGripper.setPosition(0.6);
     }
 

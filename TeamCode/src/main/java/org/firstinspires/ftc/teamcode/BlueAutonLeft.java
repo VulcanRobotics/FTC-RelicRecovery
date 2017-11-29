@@ -8,7 +8,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.sch.ftc4914.ColorSensorLeg;
-import org.sch.ftc4914.GlyphArm;
+import org.sch.ftc4914.FourBarArm;
+import org.sch.ftc4914.GlyphArm; //This is for the previous glyph arm, which is not being used
 import org.sch.ftc4914.VladimirEye;
 import org.sch.ftc4914.VladimirOmni;
 
@@ -48,7 +49,7 @@ public class BlueAutonLeft extends OpMode {
     private ColorSensorLeg leg;
     private ElapsedTime runtime = new ElapsedTime();
     private float[] hsvValues = {0F, 0F, 0F};
-    private GlyphArm arm; //NEEDS TO BE LOOKED AT
+    private FourBarArm arm; //NEEDS TO BE LOOKED AT
     private String direction = "";
     private String armType = "classic"; //classic, 4-bar, or elevator
     String jewelString;
@@ -61,7 +62,7 @@ public class BlueAutonLeft extends OpMode {
         robotEye = new VladimirEye(hardwareMap, VuforiaLocalizer.CameraDirection.FRONT);
         leg = new ColorSensorLeg(hardwareMap);
         jewelString = "NOTHING!";
-        arm = new GlyphArm(hardwareMap); //NEEDS TO BE LOOKED AT
+        arm = new FourBarArm(hardwareMap); //NEEDS TO BE LOOKED AT
     }
 
     @Override
@@ -82,14 +83,29 @@ public class BlueAutonLeft extends OpMode {
                 if (loopCounter == 0){
                     leg.extend();
                 }
+
                 if (++loopCounter >= 20) {
                     loopCounter = 0;
                     stepNumber += 1;
                 }
 
-
                 break;
-            case 1: //Senses the color of the jewel on the right side
+            case 1: //Closes the arm so that it holds onto a glyph
+                arm.closeGripper(); //This holds on to the glyph so that it is possible to put it into the cryptobox later on in auton
+
+                if (++loopCounter >= 20) {
+                    loopCounter = 0;
+                    stepNumber += 1;
+                }
+                break;
+            case 2:
+                arm.moveArm(-0.4); //This lifts the arm so that it doesn't drag on the ground
+                if (++loopCounter >= 20) {
+                    loopCounter = 0;
+                    stepNumber += 1;
+                }
+                break;
+            case 3: //Senses the color of the jewel on the right side
 /*
                 COLOR SENSOR SENSES towards rear of robot, so:
                 - since we're blue, if we sense red, we want to drive reverse to knock red away

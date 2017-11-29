@@ -8,7 +8,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.sch.ftc4914.ColorSensorLeg;
-import org.sch.ftc4914.GlyphArm; //NEEDS TO BE LOOKED AT
+import org.sch.ftc4914.FourBarArm;
+import org.sch.ftc4914.GlyphArm; //This is for the previous glyph arm, which is not being used
 import org.sch.ftc4914.VladimirEye;
 import org.sch.ftc4914.VladimirOmni;
 
@@ -46,7 +47,8 @@ public class BlueAutonRight extends OpMode {
     private ColorSensorLeg leg;
     private ElapsedTime runtime = new ElapsedTime();
     private float[] hsvValues = {0F, 0F, 0F};
-    private GlyphArm arm; //NEEDS TO BE LOOKED AT
+    //private GlyphArm arm; //NEEDS TO BE LOOKED AT (Maybe needs to be FourBarArm)
+    private FourBarArm arm; //(private GlyphArm arm;
     private String direction = "";
     private String armType = "classic"; //classic, 4-bar, or elevator
     String jewelString;
@@ -59,7 +61,7 @@ public class BlueAutonRight extends OpMode {
         robotEye = new VladimirEye(hardwareMap, VuforiaLocalizer.CameraDirection.FRONT);
         leg = new ColorSensorLeg(hardwareMap);
         jewelString = "NOTHING!";
-        arm = new GlyphArm(hardwareMap); //NEEDS TO BE LOOKED AT
+        arm = new FourBarArm(hardwareMap); //NEEDS TO BE LOOKED AT (arm = new GlyphArm(hardwareMap);
     }
 
     @Override
@@ -80,14 +82,29 @@ public class BlueAutonRight extends OpMode {
                 if (loopCounter == 0){
                     leg.extend();
                 }
+
                 if (++loopCounter >= 20) {
                     loopCounter = 0;
                     stepNumber += 1;
                 }
 
-
                 break;
-            case 1: //Senses the color of the jewel on the right side
+            case 1: //Closes the arm so that it holds onto a glyph
+                arm.closeGripper(); //This holds on to the glyph so that it is possible to put it into the cryptobox later on in auton
+
+                if (++loopCounter >= 20) {
+                    loopCounter = 0;
+                    stepNumber += 1;
+                }
+                break;
+            case 2:
+                arm.moveArm(-0.4); //This lifts the arm so that it doesn't drag on the ground
+                if (++loopCounter >= 20) {
+                    loopCounter = 0;
+                    stepNumber += 1;
+                }
+                break;
+            case 3: //Senses the color of the jewel on the right side
 /*
                 COLOR SENSOR SENSES towards rear of robot, so:
                 - since we're blue, if we sense red, we want to drive reverse to knock red away
@@ -101,7 +118,7 @@ public class BlueAutonRight extends OpMode {
                     jewelString = "RED JEWEL!";
                     stepNumber = 20; // drive reverse
                 }
-                if (++loopCounter >= 100){
+                if (++loopCounter >= 75){
                     jewelString = "NO STRING";
                     loopCounter = 0;
                     direction = "none";
@@ -166,8 +183,8 @@ public class BlueAutonRight extends OpMode {
             case 61:
                 if (!robotDrive.isBusy() || ++ loopCounter>= 30) {
                     loopCounter = 0;
-                    //stepNumber =80;
-                    stepNumber = 91; // just stop, don't try to turn
+                    //stepNumber = 91; just stop, don't try to turn
+                    stepNumber = 80;
 
                 }
                 break;
@@ -180,55 +197,81 @@ public class BlueAutonRight extends OpMode {
             case 71:
                 if (!robotDrive.isBusy() || ++ loopCounter>= 30) {
                     loopCounter = 0;
-                    stepNumber = 91; //normally 80, but this stops it at safe zone
+                    //stepNumber = 91; just stop, don't try to turn
+                    stepNumber = 80;
 
                 }
                 break;
 
             case 80: //put glyph into cryptobox
                  //ready to drive into c.box
-               robotDrive.distanceDrive(0.5,(int) (-1.5*Math.PI),(int)(1.5*Math.PI)); //4.0, -4.0
-                //robotDrive.omniDrive(0, 1); //turns robot
-                    stepNumber += 1;
+               robotDrive.distanceDrive(0.5,(int) (3.5*Math.PI),(int)(-3.5*Math.PI)); //4.0, -4.0
+                // This turns robot so the ARM is facing the cryptobox
+                // As of now, the robot is facing the cryptocolumn on its middle.
+                    stepNumber = 81;
 
 
                 break;
             case 81:
                 if (!robotDrive.isBusy() || ++ loopCounter>= 30) {
                     loopCounter = 0;
-                    stepNumber=82;
+                    stepNumber=82; //could be 89 for ending
 
                 }
                 break;
             case 82: //drives into the cryptobox
                 robotDrive.distanceDrive(0.5, 15, 15);
-                stepNumber += 1;
+                stepNumber = 83;
                 break;
             case 83:
                 if (++loopCounter >= 30) {
                     loopCounter = 0;
-                    stepNumber = 91; //normally 86, but this stops it at when it pushes into cryptobox
+                    //stepNumber = 89; //normally 86, but this stops it at when it pushes into cryptobox
+                    stepNumber = 85; //This should jostle the glyph around to make sure that is gets into the correct position
                 }
                 break;
-
+            case 85: //Lets go of Glyph
+                arm.openGripper();
+                if (++loopCounter >= 30){
+                    loopCounter = 0;
+                    stepNumber = 86;
+                }
+                break;
             case 86:
-                robotDrive.distanceDrive(1, 2, 0); //jostle right
-                if (++loopCounter >= 30) {
+                robotDrive.distanceDrive(0.5, 2, 0); //jostle right
+                if (++loopCounter >= 5) {
                     loopCounter = 0;
                     stepNumber += 1;
                 }
                 break;
             case 87:
-                robotDrive.distanceDrive(1, 2, 5); //jostle left
-                if (++loopCounter >= 30) {
+                robotDrive.distanceDrive(0.5, 0, 2); //jostle left
+                if (++loopCounter >= 5) {
+                    loopCounter = 0;
+                    stepNumber = 89;
+                }
+                break;
+            case 89: //Lets go of Glyph
+                arm.openGripper();
+                if (++loopCounter >= 30){
                     loopCounter = 0;
                     stepNumber = 90;
                 }
                 break;
             case 90: //Back up into safe zone
-                robotDrive.distanceDrive(0.5, 5, 5); //"releases" glyph
+                robotDrive.distanceDrive(0.5, -10, -15); // drives back to safe zone
+                if (++loopCounter >= 2){
+                    loopCounter = 0;
+                    stepNumber = 91;
+                }
                 break;
-            case 91:  // stop robot
+            case 91:
+                if (++loopCounter >= 30){
+                    loopCounter = 0;
+                    stepNumber = 92;
+                }
+                break;
+            case 92:  // stop robot
                 arm.moveArm(0);
                 robotEye.stopLooking();
                 robotDrive.omniDrive(0,0);
