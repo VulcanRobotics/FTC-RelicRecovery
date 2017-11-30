@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.sch.ftc4914.ColorSensorLeg;
 import org.sch.ftc4914.GlyphArm;
+import org.sch.ftc4914.RelicArm;
 import org.sch.ftc4914.VladimirEye;
 import org.sch.ftc4914.VladimirOmni;
 
@@ -29,6 +30,7 @@ public class relicArm extends OpMode {
     private VladimirOmni robotDrive;
     private VladimirEye robotEye;
     private ElapsedTime runtime = new ElapsedTime();
+    //private relicArm arm;
     //xprivate relicArmExtender arm;
 
     @Override
@@ -36,6 +38,7 @@ public class relicArm extends OpMode {
         stepNumber = 0;
         robotDrive = new VladimirOmni(hardwareMap);
         //relicArmExtender = new VladimirOmni(hardwareMap);
+        //arm = new RelicArm(hardwareMap);
     }
 
     @Override
@@ -50,6 +53,7 @@ public class relicArm extends OpMode {
     }
 
     public void loop() {
+
     }
     /*
     @Override

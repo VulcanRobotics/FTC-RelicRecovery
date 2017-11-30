@@ -12,7 +12,7 @@ import org.sch.ftc4914.VladimirOmni;
 
 @Autonomous (name="Distance_Test")
 public class Distance_Test extends OpMode{
-    VladimirOmni robotDrive;
+    private  VladimirOmni robotDrive;
     private int currentDistanceAttempt = 0;
     private int stepNumber = 12;
     private int loopCounter = 0;

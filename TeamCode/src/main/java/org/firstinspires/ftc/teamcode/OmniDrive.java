@@ -36,6 +36,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.sch.ftc4914.ColorSensorLeg;
 import org.sch.ftc4914.FourBarArm;
 import org.sch.ftc4914.GlyphArm;
+import org.sch.ftc4914.RelicArm;
 import org.sch.ftc4914.VladimirOmni;
 
 /*
@@ -54,6 +55,7 @@ import org.sch.ftc4914.VladimirOmni;
 
 @TeleOp(name="OmniDrive", group="Iterative Opmode")
 //@Disabled
+
 public class OmniDrive extends OpMode
 {
     // Declare OpMode members.
@@ -66,7 +68,10 @@ public class OmniDrive extends OpMode
     private VladimirOmni omniDrive;
     private FourBarArm arm;
     private ColorSensorLeg leg;
-    private relicArm relicArmExtender;
+    public boolean openOrNot = false;
+    private RelicArm relicCollection;
+    private boolean clickedButtons = false;
+    public boolean clickedAndRecievedButtons = false;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -90,9 +95,9 @@ public class OmniDrive extends OpMode
 
 
         omniDrive = new VladimirOmni(hardwareMap);
+        relicCollection = new RelicArm(hardwareMap);
         arm = new FourBarArm(hardwareMap);
         leg = new ColorSensorLeg(hardwareMap);
-        //relicArm = new relicArm(hardwareMap);
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
     }
@@ -143,6 +148,7 @@ public class OmniDrive extends OpMode
 //        telemetry.addData("Color", "Red: " + leg.getRed() + " Blue: " + leg.getBlue());
         telemetry.addData("Arm", "Pos: " + arm.getPosition() + "cmd: " + armCommand);
         telemetry.addData("Wheels", "LtPos: " + omniDrive.getLeftPos() + " RtPos: " + omniDrive.getRightPos());
+        telemetry.addData("Is controller working? : ", "Answer: " + clickedButtons);
         if(gamepad2.x == true){
             arm.closeGripper();
             //bottomGripper.setPosition(0);
@@ -150,10 +156,20 @@ public class OmniDrive extends OpMode
             arm.openGripper();
             //bottomGripper.setPosition(45);
         }
-        //if (gamepad2.a) leg.home();
-        //if (gamepad2.y) leg.extend();
-        if (gamepad2.a) {
-            //relicArm.
+        if(gamepad2.a == true){
+            arm.lockedClosedGrippers();
+                //bottomGripper.setPosition(0);
+        }if(gamepad2.y == true) {
+            arm.lockedOpenGrippers();
+                //bottomGripper.setPosition(45);
+        }
+        if (gamepad1.a == true){
+            relicCollection.closeWrist();
+            clickedButtons = true;
+        }
+        if (gamepad1.y == true){
+            relicCollection.openWrist();
+            clickedButtons = true;
         }
     }
 

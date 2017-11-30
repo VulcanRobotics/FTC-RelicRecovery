@@ -51,6 +51,7 @@ public class BlueAutonRight extends OpMode {
     private FourBarArm arm; //(private GlyphArm arm;
     private String direction = "";
     private String armType = "classic"; //classic, 4-bar, or elevator
+    private String pictographType = "null";
     String jewelString;
     //private double turn90 = 1.5
 
@@ -58,7 +59,7 @@ public class BlueAutonRight extends OpMode {
     public void init() {
         stepNumber = 0;
         robotDrive = new VladimirOmni(hardwareMap);
-        robotEye = new VladimirEye(hardwareMap, VuforiaLocalizer.CameraDirection.FRONT);
+        robotEye = new VladimirEye(hardwareMap, VuforiaLocalizer.CameraDirection.BACK);
         leg = new ColorSensorLeg(hardwareMap);
         jewelString = "NOTHING!";
         arm = new FourBarArm(hardwareMap); //NEEDS TO BE LOOKED AT (arm = new GlyphArm(hardwareMap);
@@ -89,7 +90,19 @@ public class BlueAutonRight extends OpMode {
                 }
 
                 break;
-            case 1: //Closes the arm so that it holds onto a glyph
+            case 1: //checks the picture to see if left, center or right
+                robotEye.startLooking();
+                stepNumber += 1;
+                break;
+            case 2: //analyzes data and finishes looking
+                if (++loopCounter >= 20) {
+                    //pictographType = robotEye.getPictograph();
+                    loopCounter = 0;
+                    robotEye.stopLooking();
+                    stepNumber += 1;
+                }
+                break;
+            case 3: //Closes the arm so that it holds onto a glyph
                 arm.closeGripper(); //This holds on to the glyph so that it is possible to put it into the cryptobox later on in auton
 
                 if (++loopCounter >= 20) {
@@ -97,14 +110,14 @@ public class BlueAutonRight extends OpMode {
                     stepNumber += 1;
                 }
                 break;
-            case 2:
-                arm.moveArm(-0.4); //This lifts the arm so that it doesn't drag on the ground
+            case 4:
+                //arm.moveArm(-0.2); //This lifts the arm so that it doesn't drag on the ground
                 if (++loopCounter >= 20) {
                     loopCounter = 0;
                     stepNumber += 1;
                 }
                 break;
-            case 3: //Senses the color of the jewel on the right side
+            case 5: //Senses the color of the jewel on the right side
 /*
                 COLOR SENSOR SENSES towards rear of robot, so:
                 - since we're blue, if we sense red, we want to drive reverse to knock red away
