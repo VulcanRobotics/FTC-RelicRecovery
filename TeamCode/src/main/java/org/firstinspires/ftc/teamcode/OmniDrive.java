@@ -156,18 +156,18 @@ public class OmniDrive extends OpMode
             arm.openGripper();
             //bottomGripper.setPosition(45);
         }
-        if(gamepad2.a == true){
+        /*if(gamepad2.a == true){
             arm.lockedClosedGrippers();
                 //bottomGripper.setPosition(0);
         }if(gamepad2.y == true) {
             arm.lockedOpenGrippers();
                 //bottomGripper.setPosition(45);
-        }
-        if (gamepad1.a == true){
+        }*/
+        if (gamepad2.a == true){
             relicCollection.closeWrist();
             clickedButtons = true;
         }
-        if (gamepad1.y == true){
+        if (gamepad2.y == true){
             relicCollection.openWrist();
             clickedButtons = true;
         }

@@ -52,6 +52,7 @@ public class BlueAutonLeft extends OpMode {
     private FourBarArm arm; //NEEDS TO BE LOOKED AT
     private String direction = "";
     private String armType = "classic"; //classic, 4-bar, or elevator
+    private double pictographNumber = 0; //7.5 = left (to person), 0 == middle, -7.5 = right (to person)
     String jewelString;
     //private double turn90 = 1.5
 
@@ -90,7 +91,19 @@ public class BlueAutonLeft extends OpMode {
                 }
 
                 break;
-            case 1: //Closes the arm so that it holds onto a glyph
+            case 1: //checks the picture to see if left, center or right
+                robotEye.startLooking();
+                stepNumber += 1;
+                break;
+            case 2: //analyzes data and finishes looking
+                if (++loopCounter >= 20) {
+                    //pictographType = robotEye.getPictograph();
+                    loopCounter = 0;
+                    robotEye.stopLooking();
+                    stepNumber += 1;
+                }
+                break;
+            case 3: //Closes the arm so that it holds onto a glyph
                 arm.closeGripper(); //This holds on to the glyph so that it is possible to put it into the cryptobox later on in auton
 
                 if (++loopCounter >= 20) {
@@ -98,14 +111,14 @@ public class BlueAutonLeft extends OpMode {
                     stepNumber += 1;
                 }
                 break;
-            case 2:
-                arm.moveArm(-0.4); //This lifts the arm so that it doesn't drag on the ground
+            case 4:
+                //arm.moveArm(-0.2); //This lifts the arm so that it doesn't drag on the ground
                 if (++loopCounter >= 20) {
                     loopCounter = 0;
                     stepNumber += 1;
                 }
                 break;
-            case 3: //Senses the color of the jewel on the right side
+            case 5: //Senses the color of the jewel on the right side
 /*
                 COLOR SENSOR SENSES towards rear of robot, so:
                 - since we're blue, if we sense red, we want to drive reverse to knock red away
@@ -188,7 +201,7 @@ public class BlueAutonLeft extends OpMode {
                 if (!robotDrive.isBusy() || ++ loopCounter>= 30) {
                     loopCounter = 0;
                     //stepNumber = 75;
-                    stepNumber = 100;   // don't turn or jostle, just stop
+                    stepNumber = 75;   // don't turn or jostle, just stop
                 }
                 break;
             case 70: //robot drove 5in reverse to knock jewel away, so drive 19in reverse
@@ -199,12 +212,12 @@ public class BlueAutonLeft extends OpMode {
                 if (!robotDrive.isBusy() || ++ loopCounter>= 30) {
                     loopCounter = 0;
                     //stepNumber = 75;
-                    stepNumber = 100;  // don't turn or jostle, just stop
+                    stepNumber = 75;  // don't turn or jostle, just stop
                 }
                 break;
 
             case 75: // turn 90deg right
-                robotDrive.distanceDrive(0.5, 4.0 * Math.PI, -4.0 * Math.PI);
+                robotDrive.distanceDrive(0.5,(int) (3.7*Math.PI ),(int)(-3.7*Math.PI ));
                 stepNumber += 1;
                 break;
             case 76: // wait for turn to complete
@@ -214,7 +227,7 @@ public class BlueAutonLeft extends OpMode {
                 }
                 break;
             case 77: // drive 12in reverse
-                robotDrive.distanceDrive(0.5, -12, -12);
+                robotDrive.distanceDrive(0.5, -12 -pictographNumber, -12 -pictographNumber);
                 stepNumber += 1;
                 break;
             case 78: // wait for drive to complete
@@ -224,7 +237,7 @@ public class BlueAutonLeft extends OpMode {
                 }
                 break;
             case 79: // turn 90deg left
-                robotDrive.distanceDrive(0.5, -4.0 * Math.PI, 4.0 * Math.PI);
+                robotDrive.distanceDrive(0.5,(int) (3.7*Math.PI + (pictographNumber / 3.2)),(int)(-3.7*Math.PI - (pictographNumber / 3.2)));
                 stepNumber += 1;
                 break;
             case 80: // wait for turn to complete
@@ -233,7 +246,7 @@ public class BlueAutonLeft extends OpMode {
                     stepNumber += 1;
                 }
                 break;
-            case 81: // drive 12in reverse
+            case 81: // drive 12in into cryptobox
                 robotDrive.distanceDrive(0.5, -12, -12);
                 stepNumber = 91;
                 break;
@@ -252,20 +265,37 @@ public class BlueAutonLeft extends OpMode {
                 }
                 break;
             case 97:
-                robotDrive.distanceDrive(1, 2, 5); //jostle left
+                robotDrive.distanceDrive(1, 0, 2); //jostle left
                 if (++loopCounter >= 30) {
                     loopCounter = 0;
                     stepNumber = 100;
                 }
                 break;
 
-            case 100: // stop robot
+            case 100: //Lets go of Glyph
+                arm.openGripper();
+                if (++loopCounter >= 30){
+                    loopCounter = 0;
+                    stepNumber = 101;
+                }
+                break;
+            case 101: //Back up into safe zone
+                robotDrive.distanceDrive(0.5, -3, -3); // drives back to safe zone
+                if (++loopCounter >= 2){
+                    loopCounter = 0;
+                    stepNumber = 102;
+                }
+                break;
+            case 102:
+                if (++loopCounter >= 30){
+                    loopCounter = 0;
+                    stepNumber = 105;
+                }
+                break;
+            case 105:  // stop robot
                 arm.moveArm(0);
                 robotEye.stopLooking();
                 robotDrive.omniDrive(0,0);
-                break;
-
-
             default:
                 break;
         }

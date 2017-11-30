@@ -5,8 +5,6 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.OmniDrive;
-
 /**
  * Created by Zach on 11/17/2017.
  */
@@ -23,7 +21,7 @@ public class RelicArm {
         relicArm = hwMap.get(DcMotorEx.class, "relicArm");
         relicWrist = hwMap.get(Servo.class, "relicWrist");
     }
-
+    /*
     public void pushPullArms(double pwr) {
         if (pwr >= .8) pwr = .8;
         if (pwr <= -.8) pwr = -.8;
@@ -32,7 +30,7 @@ public class RelicArm {
             relicArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             relicArm.setTargetPosition(getPosition());
         }
-    }
+    }*/
 
 
     public int getPosition(){
@@ -53,7 +51,7 @@ public class RelicArm {
     }
 
     public void closeWrist(){
-        relicWrist.setPosition(-1);
+        relicWrist.setPosition(0);
     }
 
 

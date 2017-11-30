@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.sch.ftc4914.ColorSensorLeg;
-import org.sch.ftc4914.GlyphArm;
+import org.sch.ftc4914.FourBarArm;
 import org.sch.ftc4914.VladimirEye;
 import org.sch.ftc4914.VladimirOmni;
 
@@ -48,9 +48,10 @@ public class RedAutonRight extends OpMode {
     private ColorSensorLeg leg;
     private ElapsedTime runtime = new ElapsedTime();
     private float[] hsvValues = {0F, 0F, 0F};
-    private GlyphArm arm; //NEEDS TO BE LOOKED AT
+    private FourBarArm arm; //NEEDS TO BE LOOKED AT
     private String direction = "";
     private String armType = "classic"; //classic, 4-bar, or elevator
+    private double pictographNumber = 0; //7.5 = left (to person), 0 == middle, -7.5 = right (to person)
     String jewelString;
     //private double turn90 = 1.5
 
@@ -61,7 +62,7 @@ public class RedAutonRight extends OpMode {
         robotEye = new VladimirEye(hardwareMap, VuforiaLocalizer.CameraDirection.FRONT);
         leg = new ColorSensorLeg(hardwareMap);
         jewelString = "NOTHING!";
-        arm = new GlyphArm(hardwareMap); //NEEDS TO BE LOOKED AT
+        arm = new FourBarArm(hardwareMap); //NEEDS TO BE LOOKED AT
     }
 
     @Override
@@ -82,14 +83,41 @@ public class RedAutonRight extends OpMode {
                 if (loopCounter == 0){
                     leg.extend();
                 }
+
                 if (++loopCounter >= 20) {
                     loopCounter = 0;
                     stepNumber += 1;
                 }
 
-
                 break;
-            case 1: //Senses the color of the jewel on the right side
+            case 1: //checks the picture to see if left, center or right
+                robotEye.startLooking();
+                stepNumber += 1;
+                break;
+            case 2: //analyzes data and finishes looking
+                if (++loopCounter >= 20) {
+                    //pictographType = robotEye.getPictograph();
+                    loopCounter = 0;
+                    robotEye.stopLooking();
+                    stepNumber += 1;
+                }
+                break;
+            case 3: //Closes the arm so that it holds onto a glyph
+                arm.closeGripper(); //This holds on to the glyph so that it is possible to put it into the cryptobox later on in auton
+
+                if (++loopCounter >= 20) {
+                    loopCounter = 0;
+                    stepNumber += 1;
+                }
+                break;
+            case 4:
+                arm.moveArm(-0.3);
+                if (++loopCounter >= 20) {
+                    loopCounter = 0;
+                    stepNumber += 1;
+                }
+                break;
+            case 5: //Senses the color of the jewel on the right side
 /*
                 COLOR SENSOR SENSES towards rear of robot, so:
                 - since we're red, if we sense red, we want to drive forward to knock blue away
@@ -162,7 +190,7 @@ public class RedAutonRight extends OpMode {
             forward 24in, turn left 90deg, forward 12in, turn right 90deg, forward ~12in
             */
             case 55:
-                robotDrive.distanceDrive(0.5, 24, 24);
+                robotDrive.distanceDrive(0.5, 24,  24);
                 stepNumber = 71;
                 break;
             case 60: //robot drove 5in reverse to knock jewel away, so drive 29in forwards
@@ -199,7 +227,7 @@ public class RedAutonRight extends OpMode {
                 }
                 break;
             case 77: // drive 12in forwards
-                robotDrive.distanceDrive(0.5, 12, 12);
+                robotDrive.distanceDrive(0.5, 12 +pictographNumber, 12 +pictographNumber);
                 stepNumber += 1;
                 break;
             case 78: // wait for drive to complete
@@ -209,7 +237,7 @@ public class RedAutonRight extends OpMode {
                 }
                 break;
             case 79: // turn 90deg right
-                robotDrive.distanceDrive(0.5, 4.0 * Math.PI, -4.0 * Math.PI);
+                robotDrive.distanceDrive(0.5,(int) (3.7*Math.PI + (pictographNumber / 3.2)),(int)(-3.7*Math.PI - (pictographNumber / 3.2)));
                 stepNumber += 1;
                 break;
             case 80: // wait for turn to complete
@@ -218,7 +246,7 @@ public class RedAutonRight extends OpMode {
                     stepNumber += 1;
                 }
                 break;
-            case 81: // drive 12in forwards
+            case 81: // drives into the cryptobox
                 robotDrive.distanceDrive(0.5, 12, 12);
                 stepNumber = 91;
                 break;
@@ -237,20 +265,37 @@ public class RedAutonRight extends OpMode {
                 }
                 break;
             case 97:
-                robotDrive.distanceDrive(1, 2, 5); //jostle left
+                robotDrive.distanceDrive(1, 0, 2); //jostle left
                 if (++loopCounter >= 30) {
                     loopCounter = 0;
                     stepNumber = 100;
                 }
                 break;
 
-            case 100: // stop robot
+            case 100: //Lets go of Glyph
+                arm.openGripper();
+                if (++loopCounter >= 30){
+                    loopCounter = 0;
+                    stepNumber = 101;
+                }
+                break;
+            case 101: //Back up into safe zone
+                robotDrive.distanceDrive(0.5, -3, -3); // drives back to safe zone
+                if (++loopCounter >= 2){
+                    loopCounter = 0;
+                    stepNumber = 105;
+                }
+                break;
+            case 105:
+                if (++loopCounter >= 30){
+                    loopCounter = 0;
+                    stepNumber = 110;
+                }
+                break;
+            case 110:  // stop robot
                 arm.moveArm(0);
                 robotEye.stopLooking();
                 robotDrive.omniDrive(0,0);
-                break;
-
-
             default:
                 break;
         }

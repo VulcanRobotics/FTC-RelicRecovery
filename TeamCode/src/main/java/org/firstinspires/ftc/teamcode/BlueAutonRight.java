@@ -51,7 +51,7 @@ public class BlueAutonRight extends OpMode {
     private FourBarArm arm; //(private GlyphArm arm;
     private String direction = "";
     private String armType = "classic"; //classic, 4-bar, or elevator
-    private String pictographType = "null";
+    private double pictographNumber = 0; //7.5 = left (to person), 0 == middle, -7.5 = right (to person)
     String jewelString;
     //private double turn90 = 1.5
 
@@ -111,7 +111,7 @@ public class BlueAutonRight extends OpMode {
                 }
                 break;
             case 4:
-                //arm.moveArm(-0.2); //This lifts the arm so that it doesn't drag on the ground
+                arm.moveArm(-0.2);
                 if (++loopCounter >= 20) {
                     loopCounter = 0;
                     stepNumber += 1;
@@ -185,11 +185,11 @@ public class BlueAutonRight extends OpMode {
                 }
                 break;
             case 55:
-                robotDrive.distanceDrive(0.5, -36, -36);
+                robotDrive.distanceDrive(0.5, -36 -pictographNumber, -36 -pictographNumber);
                 stepNumber = 61;
                 break;
             case 60: //robot drives to safe zone (went forwards)
-                robotDrive.distanceDrive(0.5, -41,-41);
+                robotDrive.distanceDrive(0.5, -41 -pictographNumber,-41 -pictographNumber);
                stepNumber+=1;
                 break;
 
@@ -203,7 +203,7 @@ public class BlueAutonRight extends OpMode {
                 break;
 
             case 70: //robot drives to safe zone (went backwards)
-                robotDrive.distanceDrive(0.5, -31,-31);
+                robotDrive.distanceDrive(0.5, -31 -pictographNumber,-31 -pictographNumber);
                 stepNumber+=1;
                 break;
 
@@ -218,7 +218,7 @@ public class BlueAutonRight extends OpMode {
 
             case 80: //put glyph into cryptobox
                  //ready to drive into c.box
-               robotDrive.distanceDrive(0.5,(int) (3.5*Math.PI),(int)(-3.5*Math.PI)); //4.0, -4.0
+               robotDrive.distanceDrive(0.5,(int) (3.7*Math.PI + (pictographNumber / 3.2)),(int)(-3.7*Math.PI - (pictographNumber / 3.2))); //4.0, -4.0
                 // This turns robot so the ARM is facing the cryptobox
                 // As of now, the robot is facing the cryptocolumn on its middle.
                     stepNumber = 81;
@@ -226,14 +226,14 @@ public class BlueAutonRight extends OpMode {
 
                 break;
             case 81:
-                if (!robotDrive.isBusy() || ++ loopCounter>= 30) {
+                if (!robotDrive.isBusy() || ++ loopCounter >= 20) {
                     loopCounter = 0;
                     stepNumber=82; //could be 89 for ending
 
                 }
                 break;
             case 82: //drives into the cryptobox
-                robotDrive.distanceDrive(0.5, 15, 15);
+                robotDrive.distanceDrive(0.5, 10, 10);
                 stepNumber = 83;
                 break;
             case 83:
@@ -247,7 +247,7 @@ public class BlueAutonRight extends OpMode {
                 arm.openGripper();
                 if (++loopCounter >= 30){
                     loopCounter = 0;
-                    stepNumber = 86;
+                    stepNumber = 90; //86 FOR WOBBLE
                 }
                 break;
             case 86:
@@ -272,7 +272,7 @@ public class BlueAutonRight extends OpMode {
                 }
                 break;
             case 90: //Back up into safe zone
-                robotDrive.distanceDrive(0.5, -10, -15); // drives back to safe zone
+                robotDrive.distanceDrive(0.5, -3, -3); // drives back to safe zone
                 if (++loopCounter >= 2){
                     loopCounter = 0;
                     stepNumber = 91;
