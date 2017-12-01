@@ -111,7 +111,7 @@ public class BlueAutonRight extends OpMode {
                 break;
             case 4:
                 arm.moveArm(-0.2);
-                if (++loopCounter >= 20) {
+                if (++loopCounter >= 30) {
                     loopCounter = 0;
                     stepNumber += 1;
                 }

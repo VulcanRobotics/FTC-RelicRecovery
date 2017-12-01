@@ -50,7 +50,7 @@ public class RedAutonLeft extends OpMode {
     private FourBarArm arm; //NEEDS TO BE LOOKED AT
     private String direction = "";
     private String armType = "classic"; //classic, 4-bar, or elevator
-    private double pictographNumber = 0; //7.5 = left (to person), 0 == middle, -7.5 = right (to person)
+    private double pictographNumber = -7.5; //7.5 = right (to person), 0 == middle, -7.5 = left (to person)
     String jewelString;
     //private double turn90 = 1.5
 
@@ -110,8 +110,8 @@ public class RedAutonLeft extends OpMode {
                 }
                 break;
             case 4:
-                arm.moveArm(0.2);
-                if (++loopCounter >= 20) {
+                arm.moveArm(-0.2);
+                if (++loopCounter >= 30) {
                     loopCounter = 0;
                     stepNumber += 1;
                 }
@@ -193,7 +193,7 @@ public class RedAutonLeft extends OpMode {
                 break;
 
             case 61:
-                if (!robotDrive.isBusy() || ++ loopCounter >= 50) {
+                if (!robotDrive.isBusy() || ++ loopCounter >= 30) {
                     loopCounter = 0;
                     //stepNumber =80;
                     stepNumber = 80;  // don't turn or jostle after reaching safe zone, just stop
@@ -206,7 +206,7 @@ public class RedAutonLeft extends OpMode {
                 break;
 
             case 71:
-                if (!robotDrive.isBusy() || ++ loopCounter>= 50) {
+                if (!robotDrive.isBusy() || ++ loopCounter>= 30) {
                     loopCounter = 0;
                     //stepNumber =80;
                     stepNumber = 80; // don't turn or jostle after reaching safe zone, just stop
@@ -215,7 +215,7 @@ public class RedAutonLeft extends OpMode {
 
             case 80: //put glyph into cryptobox
                  //ready to drive into c.box
-                robotDrive.distanceDrive(0.5,(int) (4.2*Math.PI + (pictographNumber / 3.2)),(int)(-4.2*Math.PI - (pictographNumber / 3.2)));
+                robotDrive.distanceDrive(0.5,(int) (4.5*Math.PI - (pictographNumber / 3.2)),(int)(-4.5*Math.PI + (pictographNumber / 3.2)));
                 //robotDrive.omniDrive(0, 1); //turns robot
                     stepNumber += 1;
 
@@ -249,6 +249,13 @@ public class RedAutonLeft extends OpMode {
             case 87:
                 robotDrive.distanceDrive(1, 0, 2); //jostle left
                 if (++loopCounter >= 30) {
+                    loopCounter = 0;
+                    stepNumber = 88;
+                }
+                break;
+            case 88:
+                arm.openGripper();
+                if (++loopCounter >= 2){
                     loopCounter = 0;
                     stepNumber = 90;
                 }

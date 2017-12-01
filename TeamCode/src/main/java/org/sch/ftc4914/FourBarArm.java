@@ -47,13 +47,13 @@ public class FourBarArm {
     }
 
     public void openGripper() {
-        leftGripper.setPosition(0.43);
-        rightGripper.setPosition(0.6);
+        leftGripper.setPosition(0.8); //0.45
+        rightGripper.setPosition(0.2); //0.55
     }
 
     public void closeGripper() {
-        leftGripper.setPosition(1);
-        rightGripper.setPosition(0);
+        leftGripper.setPosition(0); //1
+        rightGripper.setPosition(1); //0
     }
 
     public void lockedOpenGrippers(){

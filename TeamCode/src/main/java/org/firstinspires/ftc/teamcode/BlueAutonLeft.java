@@ -111,8 +111,8 @@ public class BlueAutonLeft extends OpMode {
                 }
                 break;
             case 4:
-                //arm.moveArm(-0.2); //This lifts the arm so that it doesn't drag on the ground
-                if (++loopCounter >= 20) {
+                arm.moveArm(-0.2); //This lifts the arm so that it doesn't drag on the ground
+                if (++loopCounter >= 30) {
                     loopCounter = 0;
                     stepNumber += 1;
                 }
