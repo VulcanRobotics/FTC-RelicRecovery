@@ -105,7 +105,7 @@ public class RedAutonRight extends OpMode {
             case 3: //Closes the arm so that it holds onto a glyph
                 arm.closeGripper(); //This holds on to the glyph so that it is possible to put it into the cryptobox later on in auton
 
-                if (++loopCounter >= 20) {
+                if (++loopCounter >= 30) {
                     loopCounter = 0;
                     stepNumber += 1;
                 }

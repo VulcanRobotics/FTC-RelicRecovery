@@ -104,13 +104,13 @@ public class RedAutonLeft extends OpMode {
             case 3: //Closes the arm so that it holds onto a glyph
                 arm.closeGripper(); //This holds on to the glyph so that it is possible to put it into the cryptobox later on in auton
 
-                if (++loopCounter >= 20) {
+                if (++loopCounter >= 30) {
                     loopCounter = 0;
                     stepNumber += 1;
                 }
                 break;
             case 4:
-                arm.moveArm(-0.2);
+                arm.moveArm(0.2);
                 if (++loopCounter >= 20) {
                     loopCounter = 0;
                     stepNumber += 1;
@@ -193,7 +193,7 @@ public class RedAutonLeft extends OpMode {
                 break;
 
             case 61:
-                if (!robotDrive.isBusy() || ++ loopCounter>= 50) {
+                if (!robotDrive.isBusy() || ++ loopCounter >= 50) {
                     loopCounter = 0;
                     //stepNumber =80;
                     stepNumber = 80;  // don't turn or jostle after reaching safe zone, just stop
@@ -215,7 +215,7 @@ public class RedAutonLeft extends OpMode {
 
             case 80: //put glyph into cryptobox
                  //ready to drive into c.box
-                robotDrive.distanceDrive(0.5,(int) (3.7*Math.PI + (pictographNumber / 3.2)),(int)(-3.7*Math.PI - (pictographNumber / 3.2)));
+                robotDrive.distanceDrive(0.5,(int) (4.2*Math.PI + (pictographNumber / 3.2)),(int)(-4.2*Math.PI - (pictographNumber / 3.2)));
                 //robotDrive.omniDrive(0, 1); //turns robot
                     stepNumber += 1;
 

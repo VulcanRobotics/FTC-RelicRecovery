@@ -35,7 +35,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.sch.ftc4914.ColorSensorLeg;
 import org.sch.ftc4914.FourBarArm;
-import org.sch.ftc4914.GlyphArm;
 import org.sch.ftc4914.RelicArm;
 import org.sch.ftc4914.VladimirOmni;
 

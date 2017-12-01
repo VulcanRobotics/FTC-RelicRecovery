@@ -9,7 +9,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.sch.ftc4914.ColorSensorLeg;
 import org.sch.ftc4914.FourBarArm;
-import org.sch.ftc4914.GlyphArm; //This is for the previous glyph arm, which is not being used
 import org.sch.ftc4914.VladimirEye;
 import org.sch.ftc4914.VladimirOmni;
 
@@ -105,7 +104,7 @@ public class BlueAutonRight extends OpMode {
             case 3: //Closes the arm so that it holds onto a glyph
                 arm.closeGripper(); //This holds on to the glyph so that it is possible to put it into the cryptobox later on in auton
 
-                if (++loopCounter >= 20) {
+                if (++loopCounter >= 30) {
                     loopCounter = 0;
                     stepNumber += 1;
                 }

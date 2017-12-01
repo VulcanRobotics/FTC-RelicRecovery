@@ -9,7 +9,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.sch.ftc4914.ColorSensorLeg;
 import org.sch.ftc4914.FourBarArm;
-import org.sch.ftc4914.GlyphArm; //This is for the previous glyph arm, which is not being used
 import org.sch.ftc4914.VladimirEye;
 import org.sch.ftc4914.VladimirOmni;
 
@@ -106,7 +105,7 @@ public class BlueAutonLeft extends OpMode {
             case 3: //Closes the arm so that it holds onto a glyph
                 arm.closeGripper(); //This holds on to the glyph so that it is possible to put it into the cryptobox later on in auton
 
-                if (++loopCounter >= 20) {
+                if (++loopCounter >= 30) {
                     loopCounter = 0;
                     stepNumber += 1;
                 }
@@ -186,7 +185,7 @@ public class BlueAutonLeft extends OpMode {
                 break;
             case 55:
                 robotDrive.distanceDrive(0.5, -24, -24);
-                stepNumber = 61;
+                stepNumber = 71;
                 break;
             /*
             After knocking jewel out of the way, drive the required 'S' pattern to park in the safe zone, facing
@@ -195,14 +194,7 @@ public class BlueAutonLeft extends OpMode {
             */
             case 60: //robot drove 5in forward to knock jewel away, so drive 29in reverse
                 robotDrive.distanceDrive(0.5, -29,-29);
-               stepNumber+=1;
-                break;
-            case 61: // wait for drive to complete
-                if (!robotDrive.isBusy() || ++ loopCounter>= 30) {
-                    loopCounter = 0;
-                    //stepNumber = 75;
-                    stepNumber = 75;   // don't turn or jostle, just stop
-                }
+               stepNumber =71;
                 break;
             case 70: //robot drove 5in reverse to knock jewel away, so drive 19in reverse
                 robotDrive.distanceDrive(0.5, -19,-19);
