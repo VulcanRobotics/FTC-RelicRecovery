@@ -159,4 +159,10 @@ public class VladimirOmni implements Driveable {
     public void mecanumDrive(double yIn, double xIn, double rotIn) {
 
     }
+    //@Override
+    public void rightAngleTurn(int direction){ //direction = 1, right; direction = -1, left;
+        distanceDrive(0.5,(int) (3.8*Math.PI*direction),(int)(-3.8*Math.PI*direction));
+    }
 }
+
+

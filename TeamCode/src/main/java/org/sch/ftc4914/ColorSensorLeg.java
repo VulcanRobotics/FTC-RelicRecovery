@@ -34,7 +34,7 @@ public class ColorSensorLeg {
         //if (colorSensor.blue() >= 50 && colorSensor.red() <= 25) return true;
         // Hue >=180 && <=300
         float hue = getHue();
-        if (hue > 180.0 && hue < 300.0 || (hue > 35 && hue < 70)) return true;
+        if (hue > 140.0 && hue < 300.0 || (hue > 35 && hue < 70)) return true;
         return false;
     }
 
