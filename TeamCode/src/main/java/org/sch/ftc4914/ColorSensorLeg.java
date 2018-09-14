@@ -5,8 +5,8 @@ import android.graphics.Color;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.ServoControllerEx;
-import com.qualcomm.robotcore.hardware.configuration.ServoConfiguration;
+//import com.qualcomm.robotcore.hardware.ServoControllerEx;
+//import com.qualcomm.robotcore.hardware.configuration.ServoConfiguration;
 
 /**
  * Created by Ron on 10/29/2017.
